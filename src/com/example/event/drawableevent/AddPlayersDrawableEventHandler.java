@@ -12,7 +12,6 @@ public class AddPlayersDrawableEventHandler extends BasicHandlerImpl<AddPlayersD
         super(listener);
     }
 
-
     @Override
     public void handle(AddPlayersDrawableEventObject eventObj) {
         listener.addDrawable(eventObj);

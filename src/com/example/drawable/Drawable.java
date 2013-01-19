@@ -14,5 +14,10 @@ import javax.microedition.khronos.opengles.GL10;
  * interfejs do graficznej reprezentacji obiektów
  */
 public interface Drawable {
+    /**
+     * Metoda rysująca obiekt
+     *
+     * @param gl
+     */
     public void draw(GL10 gl);
 }

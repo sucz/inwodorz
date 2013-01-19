@@ -1,14 +1,20 @@
 package com.example.event.base;
 
+
 /**
- * Author: miroslaw
- * Date: 11/30/12
- * Time: 9:19 PM
+ * Podstawowy handler
+ *
+ * @param <T> Argument przekazywany podczas wywołania eventu
+ * @param <V> Klasa listenera obsługująca dany event
  */
 public abstract class BasicHandlerImpl<T extends SimpleEvent, V extends SimpleListener> implements BasicHandler<T> {
+
+    /**
+     * Obiekt
+     */
     protected V listener;
 
-    public BasicHandlerImpl(V listener) {
+    protected BasicHandlerImpl(V listener) {
         this.listener = listener;
     }
 }

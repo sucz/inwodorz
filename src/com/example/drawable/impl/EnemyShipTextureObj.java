@@ -71,7 +71,7 @@ public class EnemyShipTextureObj implements Drawable {
     }
 
     public void draw(GL10 gl) {
-        gl.glScalef(1.2f, 0.5f, 0);
+        // gl.glScalef(1.2f, 0.5f, 0);
         gl.glTranslatef(-0.5f, -0.5f, 0);
 
         gl.glVertexPointer(2, GL11.GL_FLOAT, 0, mFVertexBuffer);

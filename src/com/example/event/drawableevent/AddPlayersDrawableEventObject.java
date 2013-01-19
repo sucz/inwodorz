@@ -1,7 +1,7 @@
 package com.example.event.drawableevent;
 
-import com.example.drawable.Drawable;
 import com.example.event.base.SimpleEvent;
+import com.example.gameobjects.ships.base.BaseObject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,13 +11,13 @@ import com.example.event.base.SimpleEvent;
  * To change this template use File | Settings | File Templates.
  */
 public class AddPlayersDrawableEventObject implements SimpleEvent {
-    Drawable t;
+    BaseObject t;
 
-    public AddPlayersDrawableEventObject(Drawable t) {
+    public AddPlayersDrawableEventObject(BaseObject t) {
         this.t = t;
     }
 
-    public Drawable getT() {
+    public BaseObject getT() {
         return t;
     }
 }

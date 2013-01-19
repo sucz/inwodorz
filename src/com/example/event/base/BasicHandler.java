@@ -1,10 +1,15 @@
 package com.example.event.base;
 
 /**
- * Author: miroslaw
- * Date: 12/1/12
- * Time: 10:49 AM
+ * Interfejs podstawowego hadlera
+ *
+ * @param <T> Argument przekazywany podczas wywołania eventu
  */
 public interface BasicHandler<T extends SimpleEvent> {
+    /**
+     * Metoda służąca jako adapter do wywołania eventu
+     *
+     * @param eventObj argument eventu
+     */
     void handle(T eventObj);
 }

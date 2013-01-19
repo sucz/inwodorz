@@ -3,17 +3,9 @@ package com.example.event;
 import com.example.event.base.BasicHandlerImpl;
 import com.example.event.base.SimpleEvent;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-/**
- * Created with IntelliJ IDEA.
- * User: miroslaw
- * Date: 11/30/12
- * Time: 6:09 PM
- * To change this template use File | Settings | File Templates.
- */
 
 /**
  * Przekierowuje eventy obiektów
@@ -21,8 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class GameEventBus {
 
     private static final GameEventBus gameEventBus = new GameEventBus();
-    private static final Map<Class, ArrayList<BasicHandlerImpl>> listeners
-            = new ConcurrentHashMap<Class, ArrayList<BasicHandlerImpl>>();
+    private static final Map<Class, LinkedList<BasicHandlerImpl>> listeners
+            = new ConcurrentHashMap<Class, LinkedList<BasicHandlerImpl>>();
 
     /**
      * Dodaje obiekt który nasłuchuje na dany event
@@ -32,7 +24,7 @@ public final class GameEventBus {
      */
     public void attachToEventBus(Class eventClass, BasicHandlerImpl handler) {
         if (listeners.get(eventClass) == null)
-            listeners.put(eventClass, new ArrayList<BasicHandlerImpl>(100));
+            listeners.put(eventClass, new LinkedList<BasicHandlerImpl>());
 
         listeners.get(eventClass).add(handler);
     }
@@ -46,6 +38,10 @@ public final class GameEventBus {
     public void fireEvent(Class eventClass, SimpleEvent event) {
         for (BasicHandlerImpl e : listeners.get(eventClass))
             e.handle(event);
+    }
+
+    public void removeListener(Class eventClass, BasicHandlerImpl handler) {
+        listeners.get(eventClass).remove(handler);
     }
 
     public static synchronized GameEventBus getInstance() {

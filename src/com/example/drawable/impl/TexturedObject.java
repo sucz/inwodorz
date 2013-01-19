@@ -72,7 +72,7 @@ public class TexturedObject implements Drawable {
 
     public void draw(GL10 gl) {
         gl.glScalef(0.5f, 0.8f, 0);
-        gl.glTranslatef(-0.1f, -0.1f, 0);
+        gl.glTranslatef(-0.5f, -0.5f, 0);
 
         gl.glVertexPointer(2, GL11.GL_FLOAT, 0, mFVertexBuffer);
 

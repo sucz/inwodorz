@@ -1,4 +1,4 @@
-package com.example.event.aliendrawableevent;
+package com.example.event.addAlienProjectioleEvent;
 
 import com.example.event.base.SimpleEvent;
 import com.example.gameobjects.ships.base.BaseObject;
@@ -6,13 +6,13 @@ import com.example.gameobjects.ships.base.BaseObject;
 /**
  * Obiekt przekazywany do
  *
- * @see AddAlienDrawableEventHandler
+ * @see AddAlienProjectileEventHandler
  *      podczas wywołania eventu
  */
-public class AddAlienDrawableEventObject implements SimpleEvent {
+public class AddAlienProjectileEventObject implements SimpleEvent {
     private BaseObject t;
 
-    public AddAlienDrawableEventObject(BaseObject t) {
+    public AddAlienProjectileEventObject(BaseObject t) {
         this.t = t;
     }
 

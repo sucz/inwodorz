@@ -11,6 +11,10 @@ import com.example.movment.Movement;
  * Time: 8:43 PM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * Podstawowa klasa pocisku
+ */
 public abstract class Bullet extends BaseObject implements Drawable {
     public Bullet(Movement m) {
         move = m;

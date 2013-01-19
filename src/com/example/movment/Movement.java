@@ -1,11 +1,7 @@
 package com.example.movment;
 
 /**
- * Created with IntelliJ IDEA.
- * User: miroslaw
- * Date: 11/28/12
- * Time: 8:37 PM
- * To change this template use File | Settings | File Templates.
+ * Podstawowa klasa ruchu
  */
 public abstract class Movement {
     protected float vecX = 0.0f;

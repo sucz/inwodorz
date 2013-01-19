@@ -4,6 +4,7 @@ import com.example.drawable.impl.GlareObj;
 import com.example.event.GameEventBus;
 import com.example.event.destroyobjectevent.DestroyObjectEventListener;
 import com.example.event.destroyobjectevent.DestroyObjectEventObject;
+import com.example.gameobjects.ships.base.BaseObject;
 import com.example.movment.Movement;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -33,11 +34,15 @@ public class TestBullet extends Bullet {
     protected void onPostRender(GL10 gl) {
         if (TTL-- < 0)
             GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this));
-
     }
 
     @Override
     protected void onPreRender(GL10 gl) {
         move.move(coordinates);
+    }
+
+    @Override
+    public void onObjectsCollision(BaseObject object) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
