@@ -1,0 +1,17 @@
+com.mmm.ztp
+com.mmm.ztp.drawable
+com.mmm.ztp.drawable.impl
+com.mmm.ztp.event
+com.mmm.ztp.event.addAlienProjectioleEvent
+com.mmm.ztp.event.aliendrawableevent
+com.mmm.ztp.event.base
+com.mmm.ztp.event.destroyobjectevent
+com.mmm.ztp.event.drawableevent
+com.mmm.ztp.event.playerfireevent
+com.mmm.ztp.event.playermoveevent
+com.mmm.ztp.gameobjects.ships
+com.mmm.ztp.gameobjects.ships.base
+com.mmm.ztp.movment
+com.mmm.ztp.shoot
+com.mmm.ztp.util
+com.mmm.ztp.weapons

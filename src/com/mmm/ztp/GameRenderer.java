@@ -41,7 +41,11 @@ import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 import android.os.Build;
 
-
+/**
+ * Implementacja wyświetlania 
+ * @author mazdac
+ *
+ */
 public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, DestroyObjectEventListener, AddAlienDrawableEventListener, AddAlienProjectileEventListener
 {
 	
@@ -115,12 +119,6 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
         for (Drawable d : alienProjectiles) {
             d.draw(gl);
         }
-        
-		
-        //kosteczka.draw(gl);
-        
-        
-        //TODO uwaga ostatnie elementy mogą migać, potrzebne powdójne buforowanie
         hittest();
 		
 	}
@@ -161,27 +159,12 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 
         GameEventBus.getInstance().attachToEventBus(AddAlienProjectileEventListener.class,
                 new AddAlienProjectileEventHandler(this));
-		/*
-		int res = R.drawable.ship;
-        texturedObject = new TexturedObject();
-        texturedObject.createTexture(gl, context, res);
 
-        
-        res = R.drawable.enemy_scout;
-        sc = new TexturedObject();
-        sc.createTexture(gl, context, res);
-
-        
-        ship = new PlayersShip(texturedObject);
-        res = R.drawable.shoot;
-        */
-
-        
-        
+        //Tutaj ładujemy tekstury
         kosteczka.loadGLTexture(gl, context);
         for(Drawable alien: alienObjects)
         	alien.load(gl, context);
-        ship.load(gl, context);
+        ship.load(gl, context); //proxy
 
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
@@ -190,7 +173,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 		gl.glEnable(GL10.GL_DEPTH_TEST); 			//Enables Depth Testing
 		gl.glDepthFunc(GL10.GL_LEQUAL); 			//The Type Of Depth Testing To Do
 		
-		//Really Nice Perspective Calculations
+		//Really Fast Perspective Calculations
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST); 
 		
 	}

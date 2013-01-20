@@ -8,10 +8,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 /**
- * The initial Android Activity, setting and initiating
- * the OpenGL ES Renderer Class @see Lesson06.java
- * 
- * @author Savas Ziplies (nea/INsanityDesign)
+ * Główne activity uruchamiane przy starcie aplikacji
+ * @author mazdac
+ *
  */
 public class Run extends Activity {
 
