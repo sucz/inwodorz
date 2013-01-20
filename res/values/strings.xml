@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="edit_message">Type here</string>
-    <string name="app_name">untitled2</string>
-    <string name="button_send">Show normal</string>
-    <string name="button_backw">Show backwards</string>
-    <string name="activity_display_message"></string>
+
+    <string name="app_name">ztp</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_button">Dummy Button</string>
+
 </resources>
