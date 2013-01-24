@@ -76,7 +76,8 @@ public class GlareObj implements Drawable {
 
     @Override
     public void draw(GL10 gl) {
-        gl.glScalef(0.1f, 0.1f, 0);
+    	/*
+        gl.glScalef(1f, 1f, 0);
         gl.glTranslatef(-0.1f, -0.1f, 0);
 
         gl.glVertexPointer(2, GL11.GL_FLOAT, 0, mFVertexBuffer);
@@ -85,6 +86,7 @@ public class GlareObj implements Drawable {
         gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTextureBuffer); //5
 
         gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
+        */
     }
 
 
@@ -106,6 +108,18 @@ public class GlareObj implements Drawable {
 
 	@Override
 	public void load(GL10 gl, Context context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setScale(float scale) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSize(float size) {
 		// TODO Auto-generated method stub
 		
 	}

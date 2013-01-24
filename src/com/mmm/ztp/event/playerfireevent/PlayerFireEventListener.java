@@ -8,5 +8,5 @@ import com.mmm.ztp.event.base.SimpleListener;
  * Time: 10:25 AM
  */
 public interface PlayerFireEventListener extends SimpleListener {
-    public void fire();
+    public void fire(PlayerFireEventObject target);
 }

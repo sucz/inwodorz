@@ -25,6 +25,7 @@ import java.nio.FloatBuffer;
 public class TexturedObject implements Drawable {
     
 	int res;
+	float scale=1f;
     /** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
 	/** The buffer holding the texture coordinates */
@@ -34,10 +35,10 @@ public class TexturedObject implements Drawable {
 	
     private float vertices[] = {
 			//Vertices according to faces
-    		-1.0f, -1.0f, 1.0f, //Vertex 0
-    		1.0f, -1.0f, 1.0f,  //v1
-    		-1.0f, 1.0f, 1.0f,  //v2
-    		1.0f, 1.0f, 1.0f   //v3
+    		0.0f, 0.0f, 0.0f, //Vertex 0
+    		1.0f, 0.0f, 0.0f,  //v1
+    		0.0f, 1.0f, 0.0f,  //v2
+    		1.0f, 1.0f, 0.0f   //v3
     };
     float texture[] =
         {
@@ -55,77 +56,44 @@ public class TexturedObject implements Drawable {
     
     public TexturedObject(int res)
     {
-        
-    	//
-		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
-		byteBuf.order(ByteOrder.nativeOrder());
-		vertexBuffer = byteBuf.asFloatBuffer();
-		vertexBuffer.put(vertices);
-		vertexBuffer.position(0);
-
-		//
-		byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
-		byteBuf.order(ByteOrder.nativeOrder());
-		textureBuffer = byteBuf.asFloatBuffer();
-		textureBuffer.put(texture);
-		textureBuffer.position(0);
-
-		//
-		indexBuffer = ByteBuffer.allocateDirect(indices.length);
-		indexBuffer.put(indices);
-		indexBuffer.position(0);
+    	recreateBuffers();
 		this.res=res;
-    	
     }
     public TexturedObject() {
-        
-    	//
-		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
-		byteBuf.order(ByteOrder.nativeOrder());
-		vertexBuffer = byteBuf.asFloatBuffer();
-		vertexBuffer.put(vertices);
-		vertexBuffer.position(0);
-
-		//
-		byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
-		byteBuf.order(ByteOrder.nativeOrder());
-		textureBuffer = byteBuf.asFloatBuffer();
-		textureBuffer.put(texture);
-		textureBuffer.position(0);
-
-		//
-		indexBuffer = ByteBuffer.allocateDirect(indices.length);
-		indexBuffer.put(indices);
-		indexBuffer.position(0);
+    	recreateBuffers();
     }
 
     public void draw(GL10 gl) {
     	//Bind our only previously generated texture in this case
+    			gl.glScalef(scale, scale, 1);
     			gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
     			gl.glEnable(GL10.GL_BLEND);    
     			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-
     			
-    			//Point to our buffers
     			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
     			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
     			gl.glEnableClientState(GL10.GL_ALPHA_BITS);
 
-    			//Set the face rotation
-    			gl.glFrontFace(GL10.GL_CCW);
-    			
-    			//Enable the vertex and texture state
     			gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
     			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
     			
-    			//Draw the vertices as triangles, based on the Index Buffer information
     			gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_BYTE, indexBuffer);
     			
-    			//Disable the client state before leaving
     			gl.glDisableClientState(GL10.GL_ALPHA_BITS);
     			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+    			gl.glScalef(1,1,1);
         
+    }
+    public void setSize(float size)
+    {
+    	
+    	this.vertices[3]=size;
+    	this.vertices[7]=size;
+    	this.vertices[9]=size;
+    	this.vertices[10]=size;
+    	recreateBuffers();
+    	
     }
     public void createTexture(GL10 gl, Context context)
     {
@@ -173,6 +141,32 @@ public class TexturedObject implements Drawable {
 	public void load(GL10 gl, Context context) {
 		this.createTexture(gl, context);
 		
+	}
+	
+	private void recreateBuffers()
+	{
+		//
+		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		vertexBuffer = byteBuf.asFloatBuffer();
+		vertexBuffer.put(vertices);
+		vertexBuffer.position(0);
+
+		//
+		byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		textureBuffer = byteBuf.asFloatBuffer();
+		textureBuffer.put(texture);
+		textureBuffer.position(0);
+
+		//
+		indexBuffer = ByteBuffer.allocateDirect(indices.length);
+		indexBuffer.put(indices);
+		indexBuffer.position(0);
+	}
+	@Override
+	public void setScale(float scale) {
+		this.scale=scale;
 	}
 }
 

@@ -53,4 +53,10 @@ public class TestBullet extends Bullet {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void setSize(float size) {
+		// TODO Auto-generated method stub
+		
+	}
 }

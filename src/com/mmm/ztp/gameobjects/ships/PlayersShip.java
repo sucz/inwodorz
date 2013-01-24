@@ -1,6 +1,8 @@
 package com.mmm.ztp.gameobjects.ships;
 
-import android.content.Context;
+import javax.microedition.khronos.opengles.GL10;
+
+import android.util.Log;
 
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.event.GameEventBus;
@@ -8,6 +10,7 @@ import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventListener;
 import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventObject;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventHandler;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventListener;
+import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveEventHandler;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveEventListener;
 import com.mmm.ztp.gameobjects.ships.base.BaseObject;
@@ -16,23 +19,15 @@ import com.mmm.ztp.movment.SimpleForwardMove;
 import com.mmm.ztp.movment.UserMove;
 import com.mmm.ztp.weapons.TestBullet;
 
-import javax.microedition.khronos.opengles.GL10;
 
-/**
- * Created with IntelliJ IDEA.
- * User: miroslaw
- * Date: 11/29/12
- * Time: 4:41 PM
- * To change this template use File | Settings | File Templates.
- */
 public class PlayersShip extends BaseObject implements PlayerFireEventListener, PlayerMoveEventListener {
     float speed = 100f;
+    
 
     public PlayersShip(Drawable template) {
         super();
         this.objectRep = template;
-        coordinates[1] += 1f;
-        coordinates[0] += 2f;
+        objectRep.setSize(this.size);
         move = new Movement() {
             @Override
             public void move(float[] c) {
@@ -70,13 +65,16 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
     }
 
     @Override
-    public void fire() {
+    public void fire(PlayerFireEventObject target) {
+    	//Log.d("PlayerShip", "Otworzyć ogień w kierunku"+target.getXy()[0]+":"+target.getXy()[1]);
+    	
         GameEventBus.getInstance().fireEvent(AddPlayersDrawableEventListener.class,
                 new AddPlayersDrawableEventObject(new TestBullet(new float[]{coordinates[0] + 0.2f, coordinates[1] + 0.3f, coordinates[2]}, new SimpleForwardMove()))
         );
         GameEventBus.getInstance().fireEvent(AddPlayersDrawableEventListener.class,
                 new AddPlayersDrawableEventObject(new TestBullet(new float[]{coordinates[0] - 0.2f, coordinates[1] + 0.3f, coordinates[2]}, new SimpleForwardMove()))
         );
+        
     }
 
     @Override
@@ -90,6 +88,7 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
 		{
 			((UserMove)this.move).Left();
 		}
+		Log.d("PlayerShip", "Koordynaty "+coordinates[0]+" : "+coordinates[1]);
 		
 	}
 
@@ -99,6 +98,10 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
 		{
 			((UserMove)this.move).Right();
 		}
-		
+		Log.d("PlayerShip", "Koordynaty "+coordinates[0]+" : "+coordinates[1]);
 	}
+	
+
+
+
 }

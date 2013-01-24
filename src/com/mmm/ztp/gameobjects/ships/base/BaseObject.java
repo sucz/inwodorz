@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.drawable.Hitable;
+import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
 import com.mmm.ztp.movment.Movement;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -21,7 +22,11 @@ public abstract class BaseObject implements Drawable, Hitable {
      * Id obiektu
      */
     private static int id = Integer.MIN_VALUE;
+    protected float size=128f;
+    float scale=1f;
     private static float prec = 0.3f;
+    
+    
     /**
      * Strategia ruchu obiektu
      */
@@ -51,7 +56,6 @@ public abstract class BaseObject implements Drawable, Hitable {
 	public void setCoordinates(float c1, float c2, float c3) {
 		this.coordinates[0]=c1;
 		this.coordinates[1]=c2;
-		this.coordinates[2]=c3;
 	}
 
 	protected BaseObject() {
@@ -127,4 +131,23 @@ public abstract class BaseObject implements Drawable, Hitable {
     {
     	this.objectRep.load(gl,context);
     }
+
+	public void fire(PlayerFireEventObject t) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void setScale(float scale) {
+		coordinates[0]=coordinates[0]*scale;
+		coordinates[1]=coordinates[1]*scale;
+		move.setSpeed((float)(move.getSpeed()*scale));
+		objectRep.setScale(size*scale);
+	}
+	
+	@Override
+	public void setSize(float size) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

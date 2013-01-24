@@ -76,4 +76,16 @@ public class Triangle implements Drawable {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void setScale(float scale) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSize(float size) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -7,7 +7,7 @@ public class FullCosinusMovement extends Movement {
     @Override
     public void move(float[] c) {
         temp += 0.019f;
-        c[0] += ((float) Math.cos(temp * 3f)*0.25f);
+        c[0] += ((float) Math.cos(temp * 3f)*10);
         c[1] += 0;
     }
 }

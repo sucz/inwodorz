@@ -1,7 +1,8 @@
 package com.mmm.ztp;
 
+import java.net.URISyntaxException;
+
 import android.app.Activity;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -27,11 +28,14 @@ public class Run extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-		engine = new GameEngine(this);
 		//Set our own Renderer and hand the renderer this Activity Context
 		//Set the GLSurface as View to this Activity
+		
+		
+		engine=new GameEngine(this);
+
 		setContentView(engine);
+		
 		runner=new Thread(engine);
 		runner.start();
 		
@@ -56,5 +60,8 @@ public class Run extends Activity {
 		super.onPause();
 		engine.onPause();
 	}
+
+
+
 	
 }

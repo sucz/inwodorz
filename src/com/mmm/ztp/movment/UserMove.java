@@ -9,7 +9,6 @@ package com.mmm.ztp.movment;
  */
 public class UserMove extends Movement implements HorizontalControls {
 
-    private Float speed = 0.1f;
     private boolean enabled=false;
     private int direction=0;
 	@Override
@@ -31,5 +30,6 @@ public class UserMove extends Movement implements HorizontalControls {
 		this.enabled=true;
 		this.direction=1;
 	}
+
 
 }

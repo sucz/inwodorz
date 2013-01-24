@@ -1,7 +1,5 @@
 package com.mmm.ztp.gameobjects.ships;
 
-import android.content.Context;
-
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.event.GameEventBus;
 import com.mmm.ztp.event.addAlienProjectioleEvent.AddAlienProjectileEventListener;
@@ -15,13 +13,7 @@ import com.mmm.ztp.weapons.TestBullet;
 
 import javax.microedition.khronos.opengles.GL10;
 
-/**
- * Created with IntelliJ IDEA.
- * User: miroslaw
- * Date: 11/29/12
- * Time: 7:41 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class EnemyShip extends BaseObject {
     float speed = 100f;
     int zonk = 1;
@@ -29,17 +21,24 @@ public class EnemyShip extends BaseObject {
     public EnemyShip(Drawable template, Movement movement) {
         super();
         this.objectRep = template;
-        coordinates[0] = 1f;
-        coordinates[1] = 2f;
-        move = movement;
+        objectRep.setSize(this.size);
+        coordinates[0] = 0f;
+        coordinates[1] = 0f;
+        move = new Movement() {
+            @Override
+            public void move(float[] c) {
+
+            }
+        };
 
     }
     
     public EnemyShip(Drawable template) {
         super();
         this.objectRep = template;
-        coordinates[0] = 1f;
-        coordinates[1] = 2f;
+        objectRep.setSize(this.size);
+        coordinates[0] = 0f;
+        coordinates[1] = 0f;
         move = new Movement() {
             @Override
             public void move(float[] c) {

@@ -14,6 +14,6 @@ public class PlayerFireEventHandler extends BasicHandlerImpl<PlayerFireEventObje
 
     @Override
     public void handle(PlayerFireEventObject eventObj) {
-        this.listener.fire();
+        this.listener.fire(eventObj);
     }
 }
