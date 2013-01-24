@@ -9,6 +9,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 
 import com.mmm.ztp.drawable.Drawable;
+import com.mmm.ztp.drawable.impl.GlareObj;
 import com.mmm.ztp.drawable.impl.Square;
 import com.mmm.ztp.drawable.impl.TexturedObject;
 import com.mmm.ztp.event.GameEventBus;
@@ -28,6 +29,7 @@ import com.mmm.ztp.gameobjects.ships.EnemyShip;
 import com.mmm.ztp.gameobjects.ships.PlayersShip;
 import com.mmm.ztp.gameobjects.ships.base.BaseObject;
 import com.mmm.ztp.movment.FullCosinusMovement;
+import com.mmm.ztp.movment.FullSinusMovement;
 import com.mmm.ztp.movment.UserMove;
 
 /**
@@ -60,9 +62,9 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 		alienObjects.add(new EnemyShip(new TexturedObject(R.drawable.enemy_scout)));
 		alienObjects.getLast().setCoordinates(240, 256, 0);
 		alienObjects.getLast().setMovement(new FullCosinusMovement());
-		alienObjects.add(new EnemyShip(new TexturedObject(R.drawable.enemy_scout)));
-		alienObjects.getLast().setCoordinates(240, 512, 0);
-		alienObjects.getLast().setMovement(new FullCosinusMovement());
+		//alienObjects.add(new EnemyShip(new TexturedObject(R.drawable.enemy_scout)));
+		//alienObjects.getLast().setCoordinates(240, 512, 0);
+		//alienObjects.getLast().setMovement(new FullSinusMovement());
 		
 		
 		/*
@@ -83,6 +85,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 
 		//Rysowanie
 		ship.draw(gl);
+
 		for (Drawable d : playersObjects) {
             d.draw(gl);
         }
@@ -99,29 +102,21 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 	}
 
 	/**
-	 * If the surface changes, reset the view
+	 * Implementacja metody Renderera, wykonywana przy zmianie powierzchni, obróceniu ekranu.
+	 * Tutaj ustawiam widok jako 2d (Orthof)
 	 */
 	public void onSurfaceChanged(GL10 gl10, int w, int h) {
-		/*
-        gl10.glViewport(-i, -i1, i * 2, i1 * 2);
-        float ratio = (float) i / i1;
-        gl10.glMatrixMode(GL10.GL_PROJECTION);
-        gl10.glLoadIdentity();
-        gl10.glFrustumf(-ratio, ratio, -1, 1, 1, 10);
-        */
-		//TODO poprawić ustawianie widoku, to na górze nie działa poprawnie - ekran cały czarny - to na dole to lekcja 6 nehe for android
-		
-		//gl10.glViewport(0, 0, w, h);
 		gl10.glMatrixMode(GL10.GL_PROJECTION); 	//Select The Projection Matrix
 		gl10.glLoadIdentity(); 					//Reset The Projection Matrix
-		//GLU.gluPerspective(gl10, 45.0f, (float)w / (float)h, 0.1f, 100.0f);		//Calculate The Aspect Ratio Of The Window
 		gl10.glOrthof(0, w, 0, h, -1, 1);
-		//gl10.glOrthox(0, w, h, 0, -1, 1);
-		
 		gl10.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix
 		gl10.glLoadIdentity(); 					//Reset The Modelview Matrix
     }
 
+	/**
+	 * Implementacja metody Renderera, wykonywana przy tworzeniu powierzchni
+	 * Tutaj ładujemy tekstury.
+	 */
 	@Override
 	public void onSurfaceCreated(GL10 gl,
 			javax.microedition.khronos.egl.EGLConfig config) {
@@ -143,6 +138,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
         	alien.load(gl, context);
         
         ship.load(gl, context); //proxy
+		GlareObj.getObj().load(gl, context);
         
 
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )

@@ -15,7 +15,8 @@ public class UserMove extends Movement implements HorizontalControls {
 	public void move(float[] c) {
 		if(enabled)
 		{
-			c[0]+=(float)direction*speed;
+			c[0]+=((float)direction*speed);
+			c[0]=checkBoundaryX(c[0]);
 			this.enabled=false;
 		}
 		

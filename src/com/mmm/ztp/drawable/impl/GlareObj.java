@@ -4,10 +4,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
+
+import com.mmm.ztp.R;
 import com.mmm.ztp.drawable.Drawable;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -15,112 +20,157 @@ import java.nio.FloatBuffer;
 /**
  * Author: miroslaw
  * Date: 12/1/12
- * Time: 1:17 PM
+ * Time: 11:40 AM
  */
 public class GlareObj implements Drawable {
-    private static int[] textures = new int[1];
-    private static GlareObj obj = new GlareObj();
-    private static FloatBuffer mFVertexBuffer;
-    private static ByteBuffer mColorBuffer;
-    private static ByteBuffer mIndexBuffer;
-    private static FloatBuffer mTextureBuffer;
+    
+	float size=32f;
+	int res=R.drawable.shoot;
+	float scale=1f;
+    /** The buffer holding the vertices */
+	private FloatBuffer vertexBuffer;
+	/** The buffer holding the texture coordinates */
+	private FloatBuffer textureBuffer;
+	/** The buffer holding the indices */
+	private ByteBuffer indexBuffer;
+	static GlareObj obj=new GlareObj();
+	
+	public static GlareObj getObj()
+	{
+		return obj;
+	}
 
-    public static GlareObj getObj() {
-        return obj;
+	
+    private float vertices[] = {
+			//Vertices according to faces
+    		0.0f, 0.0f, 0.0f, //Vertex 0
+    		size, 0.0f, 0.0f,  //v1
+    		0.0f, size, 0.0f,  //v2
+    		size, size, 0.0f   //v3
+    };
+    float texture[] =
+        {
+                0.0f, 0.0f,
+                1.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f
+        };
+    byte indices[] = //4
+        {
+    		0,1,3, 
+    		0,3,2
+        };
+    private int[] textures = new int[1];
+    
+    private GlareObj() 
+    {
+    	recreateBuffers();
     }
 
-    private GlareObj() {
-        float textureCoords[] =
-                {
-                        0.0f, 0.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f
-                };
-        byte maxColor = (byte) 255;
-        byte colors[] = //3
-                {
-                        maxColor, maxColor,
-                        0, maxColor,
-                        0,
-                        maxColor, maxColor, maxColor,
-                        0,
-                        0,
-                        0, maxColor,
-                        maxColor,
-                        0, maxColor, maxColor
-                };
-        byte indices[] = //4
-                {
-                        0, 3, 1,
-                        0, 2, 3
-                };
-        ByteBuffer vbb = ByteBuffer.allocateDirect(textureCoords.length * 4); //5
-        vbb.order(ByteOrder.nativeOrder());
-        mFVertexBuffer = vbb.asFloatBuffer();
-        mFVertexBuffer.put(textureCoords);
-        mFVertexBuffer.position(0);
-        mColorBuffer = ByteBuffer.allocateDirect(colors.length);
-        mColorBuffer.put(colors);
-        mColorBuffer.position(0);
-        mIndexBuffer = ByteBuffer.allocateDirect(indices.length);
-        mIndexBuffer.put(indices);
-        mIndexBuffer.position(0);
-
-        ByteBuffer tbb = ByteBuffer.allocateDirect(textureCoords.length * 4);
-        tbb.order(ByteOrder.nativeOrder());
-        mTextureBuffer = tbb.asFloatBuffer();
-        mTextureBuffer.put(textureCoords);
-        mTextureBuffer.position(0);
-    }
-
-    @Override
     public void draw(GL10 gl) {
-    	/*
-        gl.glScalef(1f, 1f, 0);
-        gl.glTranslatef(-0.1f, -0.1f, 0);
+    	//Bind our only previously generated texture in this case
+    			gl.glScalef(scale, scale, 1);
+    			gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
+    			gl.glEnable(GL10.GL_BLEND);    
+    			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+    			
+    			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+    			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+    			gl.glEnableClientState(GL10.GL_ALPHA_BITS);
 
-        gl.glVertexPointer(2, GL11.GL_FLOAT, 0, mFVertexBuffer);
-
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]); //4
-        gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTextureBuffer); //5
-
-        gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
-        */
+    			gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+    			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
+    			
+    			gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_BYTE, indexBuffer);
+    			
+    			gl.glDisableClientState(GL10.GL_ALPHA_BITS);
+    			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+    			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+    			gl.glScalef(1,1,1);
+        
+    }
+    public void setSize(float size)
+    {
+    	
+    	this.vertices[3]=size;
+    	this.vertices[7]=size;
+    	this.vertices[9]=size;
+    	this.vertices[10]=size;
+    	recreateBuffers();
+    	
+    }
+    public void createTexture(GL10 gl, Context context)
+    {
+    	createTexture( gl,  context,  this.res);
     }
 
+    public int createTexture(GL10 gl, Context context, int resource) {
+    	//Get the texture from the Android resource directory
+    			InputStream is = context.getResources().openRawResource(resource);
+    			Bitmap bitmap = null;
+    			try {
+    				//BitmapFactory is an Android graphics utility for images
+    				bitmap = BitmapFactory.decodeStream(is);
 
-    public static int createTexture(GL10 gl, Context contextRegf, int resource) {
-        Bitmap image = BitmapFactory.decodeResource(contextRegf.getResources(),
-                resource);
-        gl.glGenTextures(1, textures, 0);
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
+    			} finally {
+    				//Always clear and close
+    				try {
+    					is.close();
+    					is = null;
+    				} catch (IOException e) {
+    				}
+    			}
 
-        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, image, 0); // 4
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, // 5a
-                GL10.GL_LINEAR);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, // 5b
-                GL10.GL_LINEAR
-        );
-        image.recycle();
-        return resource;
+    			//Generate one texture pointer...
+    			gl.glGenTextures(1, textures, 0);
+    			//...and bind it to our array
+    			gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
+    			
+    			//Create Nearest Filtered Texture
+    			gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+    			gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+
+    			//Different possible texture parameters, e.g. GL10.GL_CLAMP_TO_EDGE
+    			gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_REPEAT);
+    			gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_REPEAT);
+    			
+    			//Use the Android GLUtils to specify a two-dimensional texture image from our bitmap
+    			GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+    			
+    			//Clean up
+    			bitmap.recycle();
+    			return resource;
     }
-
 	@Override
 	public void load(GL10 gl, Context context) {
-		// TODO Auto-generated method stub
+		this.createTexture(gl, context);
 		
 	}
+	
+	private void recreateBuffers()
+	{
+		//
+		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		vertexBuffer = byteBuf.asFloatBuffer();
+		vertexBuffer.put(vertices);
+		vertexBuffer.position(0);
 
+		//
+		byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		textureBuffer = byteBuf.asFloatBuffer();
+		textureBuffer.put(texture);
+		textureBuffer.position(0);
+
+		//
+		indexBuffer = ByteBuffer.allocateDirect(indices.length);
+		indexBuffer.put(indices);
+		indexBuffer.position(0);
+	}
 	@Override
 	public void setScale(float scale) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setSize(float size) {
-		// TODO Auto-generated method stub
-		
+		this.scale=scale;
 	}
 }
+

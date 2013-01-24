@@ -16,6 +16,7 @@ import com.mmm.ztp.movment.Movement;
  * Podstawowa klasa pocisku
  */
 public abstract class Bullet extends BaseObject implements Drawable {
+	
     public Bullet(Movement m) {
         move = m;
     }

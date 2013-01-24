@@ -69,10 +69,10 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
     	//Log.d("PlayerShip", "Otworzyć ogień w kierunku"+target.getXy()[0]+":"+target.getXy()[1]);
     	
         GameEventBus.getInstance().fireEvent(AddPlayersDrawableEventListener.class,
-                new AddPlayersDrawableEventObject(new TestBullet(new float[]{coordinates[0] + 0.2f, coordinates[1] + 0.3f, coordinates[2]}, new SimpleForwardMove()))
+                new AddPlayersDrawableEventObject(new TestBullet(new float[]{coordinates[0]+(this.size/2) + 0.2f, coordinates[1] + 0.3f, coordinates[2]}, new SimpleForwardMove()))
         );
         GameEventBus.getInstance().fireEvent(AddPlayersDrawableEventListener.class,
-                new AddPlayersDrawableEventObject(new TestBullet(new float[]{coordinates[0] - 0.2f, coordinates[1] + 0.3f, coordinates[2]}, new SimpleForwardMove()))
+                new AddPlayersDrawableEventObject(new TestBullet(new float[]{coordinates[0]+(this.size/2) - 0.2f, coordinates[1] + 0.3f, coordinates[2]}, new SimpleForwardMove()))
         );
         
     }
@@ -88,7 +88,6 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
 		{
 			((UserMove)this.move).Left();
 		}
-		Log.d("PlayerShip", "Koordynaty "+coordinates[0]+" : "+coordinates[1]);
 		
 	}
 
@@ -98,9 +97,7 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
 		{
 			((UserMove)this.move).Right();
 		}
-		Log.d("PlayerShip", "Koordynaty "+coordinates[0]+" : "+coordinates[1]);
 	}
-	
 
 
 

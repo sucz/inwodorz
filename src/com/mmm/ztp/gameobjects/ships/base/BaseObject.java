@@ -2,6 +2,7 @@ package com.mmm.ztp.gameobjects.ships.base;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.drawable.Hitable;
@@ -64,9 +65,14 @@ public abstract class BaseObject implements Drawable, Hitable {
 
     @Override
     public boolean hittest(BaseObject object) {
-        if (object.coordinates[1] < coordinates[1] + prec && object.coordinates[1] > coordinates[1] - prec)
-            if (object.coordinates[0] < coordinates[0] + prec && object.coordinates[0] > coordinates[0] - prec)
-                return true;
+        
+        if((object.coordinates[1]+object.size*object.scale)>(this.coordinates[1])&&(object.coordinates[1]<(this.coordinates[1]+(this.size*this.scale))))
+        {
+        	//Log.d("hittest", "ta sama wysokość");
+        	if((object.coordinates[0]+object.size*object.scale)>(this.coordinates[0])&&(object.coordinates[0]<(this.coordinates[0]+(this.size*this.scale))))
+        		return true;
+        	
+        }
         return false;
 
     }

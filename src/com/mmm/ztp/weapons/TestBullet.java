@@ -18,11 +18,11 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class TestBullet extends Bullet {
 
-    int TTL = 40;
-
+    int TTL = 150;
+    protected float size=16f;
     public TestBullet(float[] coords, Movement m) {
         super(m);
-        this.coordinates[0] = coords[0];
+        this.coordinates[0] = coords[0]-(this.size/2);
         this.coordinates[1] = coords[1];
         this.objectRep = GlareObj.getObj();
     }
