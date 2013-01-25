@@ -1,5 +1,6 @@
 package com.mmm.ztp.gameobjects.ships;
 
+import com.mmm.counter.Counter;
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.event.GameEventBus;
 import com.mmm.ztp.event.addAlienProjectioleEvent.AddAlienProjectileEventListener;
@@ -16,6 +17,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class EnemyShip extends BaseObject {
     float speed = 100f;
+    protected int points=1;
     int zonk = 1;
 
     public EnemyShip(Drawable template, Movement movement) {
@@ -48,11 +50,6 @@ public class EnemyShip extends BaseObject {
 
 
     }
-    
-    @Override
-    public void onDestruct() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 
     @Override
     public void onPreRender(GL10 gl) {
@@ -75,6 +72,13 @@ public class EnemyShip extends BaseObject {
 
     @Override
     public void onObjectsCollision(BaseObject object) {
+    	Counter.getInstance().add(points);
         GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this));
     }
+
+	@Override
+	public void onDestruct() {
+		// TODO Auto-generated method stub
+		
+	}
 }

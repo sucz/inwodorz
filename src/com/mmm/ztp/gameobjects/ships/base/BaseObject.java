@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.drawable.Hitable;
+import com.mmm.ztp.drawable.Pointable;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
 import com.mmm.ztp.movment.Movement;
 
@@ -18,7 +19,7 @@ import javax.microedition.khronos.opengles.GL10;
  * Time: 9:16 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class BaseObject implements Drawable, Hitable {
+public abstract class BaseObject implements Drawable, Hitable, Pointable {
     /**
      * Id obiektu
      */
@@ -26,6 +27,7 @@ public abstract class BaseObject implements Drawable, Hitable {
     protected float size=128f;
     float scale=1f;
     private static float prec = 0.3f;
+    protected int points;
     
     
     /**
@@ -65,14 +67,16 @@ public abstract class BaseObject implements Drawable, Hitable {
 
     @Override
     public boolean hittest(BaseObject object) {
-        
-        if((object.coordinates[1]+object.size*object.scale)>(this.coordinates[1])&&(object.coordinates[1]<(this.coordinates[1]+(this.size*this.scale))))
-        {
-        	//Log.d("hittest", "ta sama wysokość");
-        	if((object.coordinates[0]+object.size*object.scale)>(this.coordinates[0])&&(object.coordinates[0]<(this.coordinates[0]+(this.size*this.scale))))
+        float objDol=object.coordinates[1];
+        float objGora=object.coordinates[1]+object.size;
+        float objLewo=object.coordinates[0];
+        float objPrawo=object.coordinates[0]+object.size;
+        float thisDol=coordinates[1];
+        float thisGora=coordinates[1]+size;
+        float thisLewo=coordinates[0];
+        float thisPrawo=coordinates[0]+size;
+        if((objGora>=thisDol)&&(objDol<=thisGora)&&(objPrawo>=thisLewo)&&(objLewo<=thisPrawo))
         		return true;
-        	
-        }
         return false;
 
     }
@@ -155,5 +159,14 @@ public abstract class BaseObject implements Drawable, Hitable {
 		// TODO Auto-generated method stub
 		
 	}
+	public long getPoints()
+	{
+		return points;
+	}
+	public void setPoints(int points)
+	{
+		this.points=points;
+	}
+	
 	
 }

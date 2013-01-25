@@ -7,7 +7,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
+import android.util.Log;
 
+import com.mmm.counter.Counter;
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.drawable.impl.GlareObj;
 import com.mmm.ztp.drawable.impl.Square;
@@ -66,14 +68,6 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 		//alienObjects.getLast().setCoordinates(240, 512, 0);
 		//alienObjects.getLast().setMovement(new FullSinusMovement());
 		
-		
-		/*
-		
-		alienObjects.getLast().setCoordinates(0, 8, 0);
-        alienObjects.add(new EnemyShip(new TexturedObject(R.drawable.enemy_scout)));
-        alienObjects.getLast().setCoordinates(0, 0, 0);
-        */
-		
 	}
 
 
@@ -85,6 +79,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 
 		//Rysowanie
 		ship.draw(gl);
+		Counter.getInstance().draw(gl);
 
 		for (Drawable d : playersObjects) {
             d.draw(gl);
@@ -97,6 +92,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
         for (Drawable d : alienProjectiles) {
             d.draw(gl);
         }
+        
         hittest();
 		
 	}
@@ -137,8 +133,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
         for(Drawable alien: alienObjects)
         	alien.load(gl, context);
         
-        ship.load(gl, context); //proxy
-		GlareObj.getObj().load(gl, context);
+
         
 
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
@@ -147,9 +142,15 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 		gl.glClearDepthf(1.0f); 					//Depth Buffer Setup
 		gl.glEnable(GL10.GL_DEPTH_TEST); 			//Enables Depth Testing
 		gl.glDepthFunc(GL10.GL_LEQUAL); 			//The Type Of Depth Testing To Do
+		gl.glEnable( GL10.GL_BLEND );
+		
 		
 		//Really Fast Perspective Calculations
-		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST); 
+		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
+		
+        Counter.getInstance().load(gl, context);
+        ship.load(gl, context); //proxy
+		GlareObj.getObj().load(gl, context);
 		
 	}
 
@@ -173,11 +174,16 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
         }
     }
 
+	/*
+	 * Implementacja interfejsu listenera usuwającego obiekty, tutaj z widoku
+	 * @see com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventListener#destroyObject(com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventObject)
+	 */
     @Override
     public void destroyObject(DestroyObjectEventObject object) {
         playersObjects.remove(object.getToDestroy());
         alienObjects.remove(object.getToDestroy());
         alienProjectiles.remove(object.getToDestroy());
+        
     }
 
     @Override

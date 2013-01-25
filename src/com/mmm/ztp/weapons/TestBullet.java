@@ -18,7 +18,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class TestBullet extends Bullet {
 
-    int TTL = 150;
+    int TTL = 75;
     protected float size=16f;
     public TestBullet(float[] coords, Movement m) {
         super(m);

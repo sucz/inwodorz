@@ -22,6 +22,7 @@ import com.mmm.ztp.weapons.TestBullet;
 
 public class PlayersShip extends BaseObject implements PlayerFireEventListener, PlayerMoveEventListener {
     float speed = 100f;
+    protected int points=-3000;
     
 
     public PlayersShip(Drawable template) {
