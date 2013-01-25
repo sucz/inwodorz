@@ -21,10 +21,15 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 
 import com.mmm.ztp.event.GameEventBus;
+import com.mmm.ztp.event.base.SimpleEventImpl;
+import com.mmm.ztp.event.engineEvents.EngineEventHandler;
+import com.mmm.ztp.event.engineEvents.EngineEventListener;
+import com.mmm.ztp.event.engineEvents.EngineEventObject;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventListener;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveEventListener;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveObject;
+import com.mmm.ztp.event.tickEvents.TickEventListener;
 import com.mmm.ztp.lvl.LvLBuilder;
 import com.mmm.ztp.util.Util;
 /**
@@ -34,7 +39,7 @@ import com.mmm.ztp.util.Util;
  * 
  */
 public class GameEngine extends GLSurfaceView implements Runnable,
-		SensorEventListener, OnKeyListener {
+		SensorEventListener, OnKeyListener, EngineEventListener {
 
 	private GameRenderer _renderer;
 	
@@ -50,19 +55,22 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 		this.setFocusableInTouchMode(true);
 		this.setOnKeyListener(this);
 		
+		
 		 
 		_renderer = new GameRenderer(context);
 		
 		setRenderer(_renderer);
-
 		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY); 
+		
+		
+		//rejestracja listernerów
 		SensorManager sensorManager = (SensorManager) context
 				.getSystemService(Context.SENSOR_SERVICE);
 		Sensor sensor;
 		sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		sensorManager.registerListener(this, sensor,
 				SensorManager.SENSOR_DELAY_GAME);
-		
+		GameEventBus.getInstance().attachToEventBus(EngineEventListener.class, new EngineEventHandler(this));
 		
 		this.generateLists();
 		
@@ -93,8 +101,10 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 	 */
 	@Override
 	public void run() {
+		
 		do {
 			requestRender();
+			GameEventBus.getInstance().tick(TickEventListener.class, new SimpleEventImpl());
 			try {
 				Thread.sleep(16, 0);
 			} catch (InterruptedException e) {
@@ -174,6 +184,11 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 			return true;
 			
 		}
+		else if ((event.getKeyCode() == KeyEvent.KEYCODE_BACK)&&(event.getAction()==KeyEvent.ACTION_UP)) {
+			this.onResume();
+			
+			return true;
+		}
 		return false;
 	}
 	
@@ -194,6 +209,22 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 		
 		
 	}
+
+	/**
+	 * Implementacja obsługi zdarzeń które muszą zostać wykonane przez silnik
+	 * @see com.mmm.ztp.event.engineEvents.EngineEventListener#onEngineEvent(com.mmm.ztp.event.engineEvents.EngineEventObject)
+	 */
+	@Override
+	public void onEngineEvent(EngineEventObject obj) {
+		if(obj.getType()==EngineEventObject.TYPE_NEXT_LEVEL)
+		{
+			Log.d("GameEngine", "Game paused. Please load next level");
+			this.onPause();
+			//Wyświetl activity do następnego levelu
+			
+		}
+	}
+	
 
 	
 	

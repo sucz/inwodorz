@@ -9,6 +9,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 
+import com.mmm.ztp.Ticker.Ticker;
 import com.mmm.ztp.counter.Counter;
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.drawable.impl.GlareObj;
@@ -27,6 +28,8 @@ import com.mmm.ztp.event.destroyobjectevent.DestroyObjectHandler;
 import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventHandler;
 import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventListener;
 import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventObject;
+import com.mmm.ztp.event.engineEvents.EngineEventListener;
+import com.mmm.ztp.event.engineEvents.EngineEventObject;
 import com.mmm.ztp.gameobjects.ships.EnemyShip;
 import com.mmm.ztp.gameobjects.ships.PlayersShip;
 import com.mmm.ztp.gameobjects.ships.base.BaseObject;
@@ -43,6 +46,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 {
 	
 	float tmp;
+	boolean reloadEventSent=false;
 	private final LinkedBlockingDeque<BaseObject> playersObjects = new LinkedBlockingDeque<BaseObject>();
     private final LinkedBlockingDeque<BaseObject> alienObjects = new LinkedBlockingDeque<BaseObject>();
     private final LinkedBlockingDeque<BaseObject> alienProjectiles = new LinkedBlockingDeque<BaseObject>(); //pociski obcych
@@ -162,7 +166,12 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
                     object.onObjectsCollision(playersObject);
             }
         }
+        if((alienObjects.size()==0)&&(!reloadEventSent))
+        {
+        	reloadEventSent=true;
+        	new Ticker(200) { public void onDone(){ reloadEventSent=false; GameEventBus.getInstance().fireEvent(EngineEventListener.class, new EngineEventObject(EngineEventObject.TYPE_NEXT_LEVEL, ship));  } };
 
+        }
         for (BaseObject object : alienObjects) {
             if (ship.hittest(object))
                 object.onObjectsCollision(ship);

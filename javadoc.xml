@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" additionalparam=" -header '&lt;meta http-equiv=\&quot;Content-Type\&quot; content=\&quot;text/html; charset=UTF-8\&quot; /&gt;'" author="true" classpath="libs/android-support-v4.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.mmm.ztp.event.destroyobjectevent,com.mmm.ztp.event.engineEvents,com.mmm.ztp.event.playerfireevent,com.mmm.ztp.lvl,com.mmm.ztp.xml,com.mmm.ztp.util,com.mmm.ztp.counter,texample,com.mmm.ztp.event.playermoveevent,com.mmm.ztp.event.drawableevent,com.mmm.ztp.movment,com.mmm.ztp.event.addAlienProjectioleEvent,com.mmm.ztp.drawable,com.mmm.ztp.Ticker,com.mmm.ztp.gameobjects.ships.base,com.mmm.ztp.drawable.impl,com.mmm.ztp.event.base,com.mmm.ztp.weapons,com.mmm.ztp.shoot,com.mmm.ztp.event.tickEvents,com.mmm.ztp.gameobjects.ships,com.mmm.ztp.event.aliendrawableevent,com.mmm.ztp.event" source="1.7" sourcefiles="src/com/mmm/ztp/Run.java,src/com/mmm/ztp/GameRenderer.java,src/com/mmm/ztp/GameEngine.java,src/com/mmm/ztp/Menu.java" sourcepath="gen:src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>

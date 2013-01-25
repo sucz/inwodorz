@@ -35,10 +35,25 @@ public final class GameEventBus {
      * @param eventClass klasa listenera eventu
      * @param event      obiekt eventu
      */
-    public void fireEvent(Class eventClass, SimpleEvent event) {
+    public synchronized void fireEvent(Class eventClass, SimpleEvent event) {
+    	if(listeners.get(eventClass)!=null)
         for (BasicHandlerImpl e : listeners.get(eventClass))
             e.handle(event);
     }
+    
+    /**
+     * Przyjmuje wywołania "tików", metoda niesynchronizowana, gdyż tiki nie mogą zostać wywołane jednocześnie
+     * gdyż istnieje tylko jedno źródło tików
+     * @param eventClass klasa listenera eventu
+     * @param event      obiekt eventu
+     */
+    public void tick(Class eventClass, SimpleEvent event) {
+    	if(listeners.get(eventClass)!=null)
+        for (BasicHandlerImpl e : listeners.get(eventClass))
+            e.handle(event);
+    }
+    
+    
 
     public void removeListener(Class eventClass, BasicHandlerImpl handler) {
         listeners.get(eventClass).remove(handler);
