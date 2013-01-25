@@ -2,7 +2,6 @@ package com.mmm.ztp;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,7 +13,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AsyncPlayer;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,7 +25,8 @@ import com.mmm.ztp.event.playerfireevent.PlayerFireEventListener;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveEventListener;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveObject;
-
+import com.mmm.ztp.lvl.LvLBuilder;
+import com.mmm.ztp.util.Util;
 /**
  * Silnik, główna część sterująca
  * 
@@ -41,6 +40,7 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 	
 	AsyncPlayer player;
 	Context context;
+	List<Integer> lvlList;
 	List<Integer> playlist;
 	Random rand=new Random(Calendar.getInstance().getTimeInMillis());
 
@@ -62,9 +62,13 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 		sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		sensorManager.registerListener(this, sensor,
 				SensorManager.SENSOR_DELAY_GAME);
-		playlist = this.generatePlaylist();
+		
+		
+		this.generateLists();
 		
 		player = new AsyncPlayer("GameEngine->AudioPlayer");
+	
+		LvLBuilder lvLBuilder = new LvLBuilder(lvlList, context);
 
 	}
 
@@ -146,7 +150,10 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 			if(playlist.size()>1)
 				track=rand.nextInt(playlist.size());
 		
-			player.play(context,Uri.parse("android.resource://com.mmm.ztp/" + playlist.get(track)),Boolean.FALSE, AudioManager.STREAM_MUSIC);
+			player.play(context,Util.generateURI(playlist.get(track)),Boolean.FALSE, AudioManager.STREAM_MUSIC);
+			
+			
+			
 		}
 	}
 
@@ -169,40 +176,25 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 		}
 		return false;
 	}
-
+	
 	/**
-	 * Metoda tworząca listę id zasobów muzyki zawartej w pakiecie
-	 * @return lista identyfkatorów liczbowych zasobów
+	 * Metoda generująca listy zasobów do dalszego wykorzystania
+	 * 
 	 */
-	private List<Integer> generatePlaylist() {
-		List<Integer> tmpList = new LinkedList<Integer>();
-		Field[] musicRescs = R.raw.class.getFields();
-		for (Field r : musicRescs) {
-			if (r.getName().startsWith("m_")) {
-				Class<?> c = R.raw.class;
-				Field tmp = null;
-				try {
-					tmp = c.getDeclaredField(r.getName());
-				} catch (NoSuchFieldException e) {
-					e.printStackTrace();
-				}
-				if (tmp != null)
-					try {
-						tmpList.add(tmp.getInt(tmp));
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					}
-			}
-
-			if (tmpList.size() > 0)
-				Log.d("GameEngine->generatePlaylist", "added to playlist: "
-						+ tmpList.get(tmpList.size() - 1));
+	private void generateLists() {
+		
+		Field[] fileRescs = R.raw.class.getFields();
+		Log.d("length fileRescs", String.valueOf(fileRescs.length));
+		if(fileRescs.length > 0)
+		{
+			playlist = Util.generatePlaylist(fileRescs, "m_");
+			lvlList = Util.generatePlaylist(fileRescs, "lvl_");
 		}
-		if(tmpList.size()>0)
-			return tmpList;
-		else
-			return null;
+		
+		
+		
 	}
+
+	
+	
 }

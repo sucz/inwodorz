@@ -1,3 +1,4 @@
+com.mmm.counter
 com.mmm.ztp
 com.mmm.ztp.drawable
 com.mmm.ztp.drawable.impl
@@ -11,7 +12,10 @@ com.mmm.ztp.event.playerfireevent
 com.mmm.ztp.event.playermoveevent
 com.mmm.ztp.gameobjects.ships
 com.mmm.ztp.gameobjects.ships.base
+com.mmm.ztp.lvl
 com.mmm.ztp.movment
 com.mmm.ztp.shoot
 com.mmm.ztp.util
 com.mmm.ztp.weapons
+com.mmm.ztp.xml
+texample

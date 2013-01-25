@@ -9,7 +9,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 
-import com.mmm.counter.Counter;
+import com.mmm.ztp.counter.Counter;
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.drawable.impl.GlareObj;
 import com.mmm.ztp.drawable.impl.Square;

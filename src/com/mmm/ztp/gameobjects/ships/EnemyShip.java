@@ -1,6 +1,6 @@
 package com.mmm.ztp.gameobjects.ships;
 
-import com.mmm.counter.Counter;
+import com.mmm.ztp.counter.Counter;
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.event.GameEventBus;
 import com.mmm.ztp.event.addAlienProjectioleEvent.AddAlienProjectileEventListener;

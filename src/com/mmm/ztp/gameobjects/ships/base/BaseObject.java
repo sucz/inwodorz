@@ -23,6 +23,7 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
     /**
      * Id obiektu
      */
+	protected float speed=9.6f;
     private static int id = Integer.MIN_VALUE;
     protected float size=128f;
     float scale=1f;
@@ -67,6 +68,7 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
 
     @Override
     public boolean hittest(BaseObject object) {
+    	//TODO poprawić hittest
         float objDol=object.coordinates[1];
         float objGora=object.coordinates[1]+object.size;
         float objLewo=object.coordinates[0];
@@ -87,7 +89,9 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
      * @param move implementacja ruchu
      */
     public void setMovement(Movement move) {
+    	move.setSpeed(this.speed);
         this.move = move;
+        
     }
 
     /**

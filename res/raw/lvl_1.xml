@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Level>
+    <Name>1</Name>
+    <Stage>
+        <Name>1</Name>
+        <EnemyShips>
+            <EnemyShip>
+                <dmg>10</dmg>
+                <hp>10</hp>
+                <speed>5</speed>
+                <move>1</move>
+            </EnemyShip>
+        </EnemyShips>
+    </Stage>
+    <Stage>
+        <Name>Final</Name>
+            <Boss>
+                <dmg>20</dmg>
+                <hp>200</hp>
+                <speed>5</speed>
+                <move>1</move>
+                <bonus>cash</bonus>
+            </Boss>
+    </Stage>
+</Level>

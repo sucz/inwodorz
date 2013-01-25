@@ -21,12 +21,13 @@ import com.mmm.ztp.weapons.TestBullet;
 
 
 public class PlayersShip extends BaseObject implements PlayerFireEventListener, PlayerMoveEventListener {
-    float speed = 100f;
     protected int points=-3000;
+
     
 
     public PlayersShip(Drawable template) {
         super();
+        this.speed=9.6f;
         this.objectRep = template;
         objectRep.setSize(this.size);
         move = new Movement() {
