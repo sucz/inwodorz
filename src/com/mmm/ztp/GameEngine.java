@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -46,8 +47,12 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 	public GameEngine(Context context) {
 		super(context);
 		this.context = context;
+		this.setFocusableInTouchMode(true);
+		this.setOnKeyListener(this);
+		
 		 
 		_renderer = new GameRenderer(context);
+		
 		setRenderer(_renderer);
 
 		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY); 
@@ -156,8 +161,11 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.KEYCODE_MENU) {
-
+		if ((event.getKeyCode() == KeyEvent.KEYCODE_MENU)&&(event.getAction()==KeyEvent.ACTION_DOWN)) {
+			Intent menu=new Intent(context,Menu.class);
+			context.startActivity(menu);
+			return true;
+			
 		}
 		return false;
 	}

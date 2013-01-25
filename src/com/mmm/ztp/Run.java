@@ -33,7 +33,7 @@ public class Run extends Activity {
 		
 		
 		engine=new GameEngine(this);
-
+		
 		setContentView(engine);
 		
 		runner=new Thread(engine);
