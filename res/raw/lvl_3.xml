@@ -1,73 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<Level>
-    <Name>1</Name>
-    <Stage>
-        <Name>1</Name>
+<Level name="3">
+    <Stage name="1">
         <EnemyShips>
-            <EnemyShip>
-                <dmg>10</dmg>
-                <hp>10</hp>
-                <speed>5</speed>
-                <move>1</move>
-            </EnemyShip>
+            <EnemyShip coordX="50" coordY="700" dmg="10" hp="10" moveSpeed="5" move="1" />
         </EnemyShips>
     </Stage>
-    <Stage>
-        <Name>2</Name>
+    <Stage name="2">
         <EnemyShips>
-            <EnemyShip>
-                <dmg>10</dmg>
-                <hp>10</hp>
-                <speed>5</speed>
-                <move>1</move>
-            </EnemyShip>
-                <EnemyShip>
-                <dmg>10</dmg>
-                <hp>10</hp>
-                <speed>5</speed>
-                <move>1</move>
-                <bonus>hp</bonus>
-            </EnemyShip>
-                <EnemyShip>
-                <dmg>10</dmg>
-                <hp>10</hp>
-                <speed>5</speed>
-                <move>1</move>
-            </EnemyShip>
+            <EnemyShip coordX="100" coordY="650" dmg="10" hp="10" moveSpeed="5" move="1" />
+            <EnemyShip coordX="100" coordY="500" dmg="10" hp="10" moveSpeed="5" move="2" />
+            <EnemyShip coordX="100" coordY="350" dmg="10" hp="10" moveSpeed="5" move="3" />
         </EnemyShips>
     </Stage>
-    <Stage>
-        <Name>3</Name>
+    <Stage name="3">
         <EnemyShips>
-            <EnemyShip>
-                <dmg>10</dmg>
-                <hp>10</hp>
-                <speed>5</speed>
-                <move>1</move>
-            </EnemyShip>
-            <EnemyShip>
-                <dmg>10</dmg>
-                <hp>10</hp>
-                <speed>5</speed>
-                <move>1</move>
-                <bonus>hp</bonus>
-            </EnemyShip>
-            <EnemyShip>
-                <dmg>10</dmg>
-                <hp>10</hp>
-                <speed>5</speed>
-                <move>1</move>
-            </EnemyShip>
+            <EnemyShip coordX="100" coordY="650" dmg="10" hp="10" moveSpeed="5" move="5" />
+            <EnemyShip coordX="100" coordY="500" dmg="10" hp="10" moveSpeed="5" move="4" />
+            <EnemyShip coordX="100" coordY="350" dmg="10" hp="10" moveSpeed="5" move="3" />
         </EnemyShips>
-    </Stage>
-    <Stage>
-        <Name>Final</Name>
-            <Boss>
-                <dmg>20</dmg>
-                <hp>200</hp>
-                <speed>5</speed>
-                <move>1</move>
-                <bonus>cash</bonus>
-            </Boss>
     </Stage>
 </Level>

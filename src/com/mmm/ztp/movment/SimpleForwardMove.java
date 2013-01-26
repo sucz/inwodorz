@@ -7,7 +7,14 @@ package com.mmm.ztp.movment;
  */
 public class SimpleForwardMove extends Movement {
 
-    private Float speed = 12.8f;
+	public SimpleForwardMove()
+	{
+		this.speed=12.8f;
+	}
+	public SimpleForwardMove(float speed)
+	{
+		this.speed=speed;
+	}
 
     @Override
     public void move(float[] c) {

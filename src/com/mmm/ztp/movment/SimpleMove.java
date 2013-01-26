@@ -9,7 +9,11 @@ package com.mmm.ztp.movment;
  */
 public class SimpleMove extends Movement {
 
-    private Float speed = 12.8f;
+	public SimpleMove()
+	{
+		this.speed=12.8f;
+	}
+
 
     @Override
     public void move(float[] c) {

@@ -1,6 +1,7 @@
 package com.mmm.ztp;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -10,6 +11,7 @@ import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 
 import com.mmm.ztp.Ticker.Ticker;
+import com.mmm.ztp.Ticker.TickerOnetimer;
 import com.mmm.ztp.counter.Counter;
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.drawable.impl.GlareObj;
@@ -35,6 +37,8 @@ import com.mmm.ztp.gameobjects.ships.PlayersShip;
 import com.mmm.ztp.gameobjects.ships.base.BaseObject;
 import com.mmm.ztp.movment.FullCosinusMovement;
 import com.mmm.ztp.movment.FullSinusMovement;
+import com.mmm.ztp.movment.SimpleForwardMove;
+import com.mmm.ztp.movment.SimpleMove;
 import com.mmm.ztp.movment.UserMove;
 
 /**
@@ -53,6 +57,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
     LinkedList<Drawable> tempObj; //pociski
     private PlayersShip ship;
     Square kwa=new Square();
+    
 	
 	
 	private Context context;
@@ -63,14 +68,6 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 		ship=new PlayersShip(new TexturedObject(R.drawable.ship));
 		ship.setMovement(new UserMove());
 		ship.setCoordinates(0, 0, 0);
-
-		
-		alienObjects.add(new EnemyShip(new TexturedObject(R.drawable.enemy_scout)));
-		alienObjects.getLast().setCoordinates(240, 256, 0);
-		alienObjects.getLast().setMovement(new FullCosinusMovement());
-		//alienObjects.add(new EnemyShip(new TexturedObject(R.drawable.enemy_scout)));
-		//alienObjects.getLast().setCoordinates(240, 512, 0);
-		//alienObjects.getLast().setMovement(new FullSinusMovement());
 		
 	}
 
@@ -169,7 +166,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
         if((alienObjects.size()==0)&&(!reloadEventSent))
         {
         	reloadEventSent=true;
-        	new Ticker(200) { public void onDone(){ reloadEventSent=false; GameEventBus.getInstance().fireEvent(EngineEventListener.class, new EngineEventObject(EngineEventObject.TYPE_NEXT_LEVEL, ship));  } };
+        	new TickerOnetimer(200) { public void onDone(){ reloadEventSent=false; GameEventBus.getInstance().fireEvent(EngineEventListener.class, new EngineEventObject(EngineEventObject.TYPE_NEXT_LEVEL, ship));  } };
 
         }
         for (BaseObject object : alienObjects) {
@@ -212,5 +209,13 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
     @Override
     public void addDrawable(AddAlienProjectileEventObject object) {
         alienProjectiles.add(object.getDrawable());
+    }
+    public void setAlienObjectsList(List<BaseObject> alienObjects)
+    {
+    	this.alienObjects.clear();
+    	for (BaseObject baseObject : alienObjects) {
+			this.alienObjects.add(baseObject);
+		}
+    	Log.d("alienObjects: ", ""+this.alienObjects.size());
     }
 }

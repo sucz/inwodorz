@@ -3,25 +3,37 @@ package com.mmm.ztp.lvl;
 import java.util.LinkedList;
 
 import com.mmm.ztp.gameobjects.ships.EnemyShip;
+import com.mmm.ztp.gameobjects.ships.base.BaseObject;
 
 public class Stage {
 	private String name;
-	LinkedList<EnemyShip> enemyShips;
+	LinkedList<BaseObject> enemyShips;
 	
 	public Stage() 
 	{
 		name = "UNKNOWN";
-		enemyShips = new LinkedList<EnemyShip>();
+		enemyShips = new LinkedList<BaseObject>();
 	}
 
 	public Stage(String name)
 	{
 		name = new String(name);
-		enemyShips = new LinkedList<EnemyShip>();
+		enemyShips = new LinkedList<BaseObject>();
 	}
 	
-	public LinkedList<EnemyShip> getShips() 
+	public String getName()
+	{
+		return name;
+	}
+	
+	public LinkedList<BaseObject> getShips() 
 	{
 		return enemyShips;
 	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 }
+

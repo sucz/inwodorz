@@ -9,6 +9,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.util.Log;
@@ -18,45 +26,35 @@ import com.mmm.ztp.util.Util;
 
 public class LvLBuilder implements Iterable<Object> 
 {
-
-	InputStream in;
+	Context context;
 	LinkedList<String> lvls;
 	List<Integer> lvlsFileIds;
+	XMLReader xmlReader;
+	LvLHandler lvlHandler;
 	
 	
 	public LvLBuilder(List<Integer> lvlsFileIds, Context context)
 	{
 		this.lvlsFileIds = lvlsFileIds;
+		this.context = context;
 		
-		in = context.getResources().openRawResource(lvlsFileIds.get(0));
-		
-		
-		
-		/*// Standard of reading a XML file
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	    factory.setNamespaceAware(true);
-	    DocumentBuilder builder;
-	    Document doc = null;
-	    XPathExpression expr = null;
-	    builder = factory.newDocumentBuilder();
-	    doc = builder.parse(configPath);
-	    
-	    // Create a XPathFactory
-	    XPathFactory xFactory = XPathFactory.newInstance();
-
-	    // Create a XPath object
-	    XPath xpath = xFactory.newXPath();
-		
-	    // Compile the XPath expression
-	    expr = xpath.compile("//Levels/LvLFile/text()");
-	    // Run the query and get a nodeset
-	    Object result = expr.evaluate(doc, XPathConstants.NODESET);
-	    
-	    // Cast the result to a DOM NodeList
-	    NodeList nodes = (NodeList) result;
-	    for (int i=0; i<nodes.getLength();i++){
-	      Log.d("LvLReader", nodes.item(i).getNodeValue());
-	    }*/
+		try {
+			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+			SAXParser saxParser = saxParserFactory.newSAXParser();
+			
+			xmlReader = saxParser.getXMLReader();
+			
+			lvlHandler = new LvLHandler();
+			xmlReader.setContentHandler(lvlHandler);
+			
+			
+		} catch (ParserConfigurationException e) {
+			Log.e("LvLBuilder -> ParserConfigurationException", e.getMessage());
+			e.printStackTrace();
+		} catch (SAXException e) {
+			Log.e("LvLBuilder -> SAXException", e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -64,16 +62,28 @@ public class LvLBuilder implements Iterable<Object>
 		// TODO Auto-generated method stub
 			return new Iterator<Object>() {
 				
+				private Iterator it = lvlsFileIds.iterator();
+				private InputStream in;
 				
 				public boolean hasNext()
 				{
-					return true;
+					return it.hasNext();
 				}
 				
 				public Object next()
 				{
-					//event = eventReader.nextEvent();
-					throw new UnsupportedOperationException();
+					try {	
+						in = context.getResources().openRawResource((Integer) it.next());
+						xmlReader.parse(new InputSource(in));
+					} catch (IOException e) {
+						Log.e("LvLBuilder -> IOException", e.getMessage());
+						e.printStackTrace();
+					} catch (SAXException e) {
+						Log.e("LvLBuilder -> SAXException", e.getMessage());
+						e.printStackTrace();
+					}
+					
+					return lvlHandler.getLevel();
 				}
 				
 				public void remove()
@@ -81,10 +91,6 @@ public class LvLBuilder implements Iterable<Object>
 					throw new UnsupportedOperationException();
 				}
 			};
-	}
-	
-	
-	
-	
+	}	
 	
 }

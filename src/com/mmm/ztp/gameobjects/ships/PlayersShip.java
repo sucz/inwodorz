@@ -20,6 +20,7 @@ import com.mmm.ztp.movment.UserMove;
 import com.mmm.ztp.weapons.WeaponBase;
 import com.mmm.ztp.weapons.BulletTest;
 import com.mmm.ztp.weapons.Weapon;
+import com.mmm.ztp.weapons.WeaponSpeedDecorator;
 
 
 public class PlayersShip extends BaseObject implements PlayerFireEventListener, PlayerMoveEventListener {
@@ -39,7 +40,8 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
 
             }
         };
-        weapon=new WeaponBase();
+        weapon=new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponBase()))))));
+        Log.d("PlayerShip", String.valueOf(weapon.getFireRate()));
         GameEventBus.getInstance().attachToEventBus(
                 PlayerMoveEventListener.class, new PlayerMoveEventHandler(this));
         GameEventBus.getInstance().attachToEventBus(

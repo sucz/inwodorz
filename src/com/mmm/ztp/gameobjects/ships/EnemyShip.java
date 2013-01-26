@@ -16,24 +16,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 
 public class EnemyShip extends BaseObject {
-    float speed = 100f;
     protected int points=1;
     int zonk = 1;
-
-    public EnemyShip(Drawable template, Movement movement) {
-        super();
-        this.objectRep = template;
-        objectRep.setSize(this.size);
-        coordinates[0] = 0f;
-        coordinates[1] = 0f;
-        move = new Movement() {
-            @Override
-            public void move(float[] c) {
-
-            }
-        };
-
-    }
     
     public EnemyShip(Drawable template) {
         super();

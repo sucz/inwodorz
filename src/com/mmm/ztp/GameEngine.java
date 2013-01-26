@@ -2,6 +2,7 @@ package com.mmm.ztp;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -30,7 +31,9 @@ import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveEventListener;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveObject;
 import com.mmm.ztp.event.tickEvents.TickEventListener;
+import com.mmm.ztp.lvl.Level;
 import com.mmm.ztp.lvl.LvLBuilder;
+import com.mmm.ztp.lvl.Stage;
 import com.mmm.ztp.util.Util;
 /**
  * Silnik, główna część sterująca
@@ -46,6 +49,10 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 	AsyncPlayer player;
 	Context context;
 	List<Integer> lvlList;
+	String currentLvLName = "";
+	String currentStageName = "";
+	Iterator lvlIter;
+	Iterator stagesIter;
 	List<Integer> playlist;
 	Random rand=new Random(Calendar.getInstance().getTimeInMillis());
 
@@ -77,6 +84,24 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 		player = new AsyncPlayer("GameEngine->AudioPlayer");
 	
 		LvLBuilder lvLBuilder = new LvLBuilder(lvlList, context);
+		lvlIter = lvLBuilder.iterator();
+		if(lvlIter.hasNext())
+		{
+			
+			Level lvl = (Level)lvlIter.next();
+			currentLvLName = lvl.getName();
+			List<Stage> stages = lvl.getStages();
+		
+			stagesIter = stages.iterator();
+			if(stages != null && stagesIter.hasNext())
+			{
+				Stage stage = (Stage)stagesIter.next();
+				currentStageName = stage.getName();
+				_renderer.setAlienObjectsList(stage.getShips());
+			}
+			Log.d("Current Level: ", currentLvLName);
+			Log.d("Current Stage: ", currentStageName);
+		}
 
 	}
 
@@ -221,6 +246,33 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 			Log.d("GameEngine", "Game paused. Please load next level");
 			this.onPause();
 			//Wyświetl activity do następnego levelu
+			
+			if(stagesIter.hasNext())
+			{
+				Stage stage = (Stage)stagesIter.next();
+				currentStageName = stage.getName();
+				_renderer.setAlienObjectsList(stage.getShips());
+				Log.d("Current Level: ", currentLvLName);
+				Log.d("Current Stage: ", currentStageName);
+			}
+			else if(lvlIter.hasNext())
+			{
+				Level lvl = (Level)lvlIter.next();
+				currentLvLName = lvl.getName();
+				List<Stage> stages = lvl.getStages();
+			
+				stagesIter = stages.iterator();
+				if(stages != null && stagesIter.hasNext())
+				{
+					Stage stage = (Stage)stagesIter.next();
+					currentStageName = stage.getName();
+					_renderer.setAlienObjectsList(stage.getShips());
+					Log.d("Current Level: ", currentLvLName);
+					Log.d("Current Stage: ", currentStageName);
+				}
+			}
+			
+			this.onResume();
 			
 		}
 	}

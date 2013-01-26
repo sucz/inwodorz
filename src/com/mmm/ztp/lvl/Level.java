@@ -20,9 +20,18 @@ public class Level
 		stages = new LinkedList<Stage>();
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
 	public LinkedList<Stage> getStages() {
 		return stages;
 	}
 	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 	
 }
