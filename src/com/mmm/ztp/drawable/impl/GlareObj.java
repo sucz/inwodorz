@@ -172,5 +172,10 @@ public class GlareObj implements Drawable {
 	public void setScale(float scale) {
 		this.scale=scale;
 	}
+
+	@Override
+	public float getSize(float size) {
+		return this.size;
+	}
 }
 

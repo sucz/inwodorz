@@ -157,10 +157,15 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
 		move.setSpeed((float)(move.getSpeed()*scale));
 		objectRep.setScale(size*scale);
 	}
+	@Override
+	public float getSize(float size) {
+		return this.size;
+		
+	}
 	
 	@Override
 	public void setSize(float size) {
-		// TODO Auto-generated method stub
+		this.size=size;
 		
 	}
 	public long getPoints()

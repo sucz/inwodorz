@@ -34,7 +34,7 @@ public class Ticker implements TickEventListener {
 	{
 		this.ticks=ticks;
 		this.handler=new TickEventHandler(this);
-		GameEventBus.getInstance().attachToEventBus(TickEventListener.class,this.handler);
+		GameEventBus.getInstance().tickToEventBus(TickEventListener.class,this.handler);
 
 	}
 	@Override
@@ -44,7 +44,7 @@ public class Ticker implements TickEventListener {
 		else
 		{
 			this.onDone();
-			GameEventBus.getInstance().removeListener(TickEventListener.class, this.handler);
+			GameEventBus.getInstance().removeTicker(TickEventListener.class, this.handler);
 		}
 	}
 	/**

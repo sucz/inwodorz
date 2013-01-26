@@ -25,4 +25,5 @@ public interface Drawable {
     public void load(GL10 gl, Context context); //ładuje do pamięci 
 	public void setScale(float scale);
 	public void setSize(float size);
+	float getSize(float size);
 }

@@ -168,5 +168,10 @@ public class TexturedObject implements Drawable {
 	public void setScale(float scale) {
 		this.scale=scale;
 	}
+	@Override
+	public float getSize(float size) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
 

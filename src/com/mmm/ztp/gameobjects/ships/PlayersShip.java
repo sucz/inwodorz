@@ -17,11 +17,14 @@ import com.mmm.ztp.gameobjects.ships.base.BaseObject;
 import com.mmm.ztp.movment.Movement;
 import com.mmm.ztp.movment.SimpleForwardMove;
 import com.mmm.ztp.movment.UserMove;
-import com.mmm.ztp.weapons.TestBullet;
+import com.mmm.ztp.weapons.WeaponBase;
+import com.mmm.ztp.weapons.BulletTest;
+import com.mmm.ztp.weapons.Weapon;
 
 
 public class PlayersShip extends BaseObject implements PlayerFireEventListener, PlayerMoveEventListener {
     protected int points=-3000;
+    private Weapon weapon;
 
     
 
@@ -36,6 +39,7 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
 
             }
         };
+        weapon=new WeaponBase();
         GameEventBus.getInstance().attachToEventBus(
                 PlayerMoveEventListener.class, new PlayerMoveEventHandler(this));
         GameEventBus.getInstance().attachToEventBus(
@@ -48,7 +52,6 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
      */
     @Override
     public void onDestruct() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
 
@@ -69,13 +72,8 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
     @Override
     public void fire(PlayerFireEventObject target) {
     	//Log.d("PlayerShip", "Otworzyć ogień w kierunku"+target.getXy()[0]+":"+target.getXy()[1]);
-    	
-        GameEventBus.getInstance().fireEvent(AddPlayersDrawableEventListener.class,
-                new AddPlayersDrawableEventObject(new TestBullet(new float[]{coordinates[0]+(this.size/2) + 0.2f, coordinates[1] + 0.3f, coordinates[2]}, new SimpleForwardMove()))
-        );
-        GameEventBus.getInstance().fireEvent(AddPlayersDrawableEventListener.class,
-                new AddPlayersDrawableEventObject(new TestBullet(new float[]{coordinates[0]+(this.size/2) - 0.2f, coordinates[1] + 0.3f, coordinates[2]}, new SimpleForwardMove()))
-        );
+    	float[] middleCords={this.coordinates[0]+(this.size/2),this.coordinates[1]+(this.size/2)};
+    	weapon.shoot(middleCords, target.getXy());
         
     }
 

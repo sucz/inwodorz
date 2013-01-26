@@ -88,4 +88,10 @@ public class Triangle implements Drawable {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public float getSize(float size) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

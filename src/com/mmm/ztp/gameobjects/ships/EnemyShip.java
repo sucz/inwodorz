@@ -10,7 +10,7 @@ import com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventObject;
 import com.mmm.ztp.gameobjects.ships.base.BaseObject;
 import com.mmm.ztp.movment.Movement;
 import com.mmm.ztp.movment.SimpleMove;
-import com.mmm.ztp.weapons.TestBullet;
+import com.mmm.ztp.weapons.BulletTest;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -62,10 +62,10 @@ public class EnemyShip extends BaseObject {
 
         if ((zonk++ % 60) == 0) {
             GameEventBus.getInstance().fireEvent(AddAlienProjectileEventListener.class,
-                    new AddAlienProjectileEventObject(new TestBullet(new float[]{coordinates[0], coordinates[1], coordinates[2]}, new SimpleMove()))
+                    new AddAlienProjectileEventObject(new BulletTest(new float[]{coordinates[0], coordinates[1], coordinates[2]}, new SimpleMove()))
             );
             GameEventBus.getInstance().fireEvent(AddAlienProjectileEventListener.class,
-                    new AddAlienProjectileEventObject(new TestBullet(new float[]{coordinates[0] + 0.2f, coordinates[1], coordinates[2]}, new SimpleMove()))
+                    new AddAlienProjectileEventObject(new BulletTest(new float[]{coordinates[0] + 0.2f, coordinates[1], coordinates[2]}, new SimpleMove()))
             );
         }
     }
