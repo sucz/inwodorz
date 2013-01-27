@@ -17,15 +17,9 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-/**
- * Author: miroslaw
- * Date: 12/1/12
- * Time: 11:40 AM
- */
 public class TexturedObject implements Drawable {
     
 	int res;
-	float scale=1f;
     /** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
 	/** The buffer holding the texture coordinates */
@@ -65,7 +59,6 @@ public class TexturedObject implements Drawable {
 
     public void draw(GL10 gl) {
     	//Bind our only previously generated texture in this case
-    			gl.glScalef(scale, scale, 1);
     			gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
     			gl.glEnable(GL10.GL_BLEND);    
     			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
@@ -82,7 +75,6 @@ public class TexturedObject implements Drawable {
     			gl.glDisableClientState(GL10.GL_ALPHA_BITS);
     			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-    			gl.glScalef(1,1,1);
         
     }
     public void setSize(float size)
@@ -163,10 +155,6 @@ public class TexturedObject implements Drawable {
 		indexBuffer = ByteBuffer.allocateDirect(indices.length);
 		indexBuffer.put(indices);
 		indexBuffer.position(0);
-	}
-	@Override
-	public void setScale(float scale) {
-		this.scale=scale;
 	}
 	@Override
 	public float getSize(float size) {

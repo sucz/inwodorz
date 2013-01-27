@@ -26,7 +26,6 @@ public class GlareObj implements Drawable {
     
 	float size=32f;
 	int res=R.drawable.shoot;
-	float scale=1f;
     /** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
 	/** The buffer holding the texture coordinates */
@@ -69,7 +68,6 @@ public class GlareObj implements Drawable {
 
     public void draw(GL10 gl) {
     	//Bind our only previously generated texture in this case
-    			gl.glScalef(scale, scale, 1);
     			gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
     			gl.glEnable(GL10.GL_BLEND);    
     			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
@@ -86,7 +84,6 @@ public class GlareObj implements Drawable {
     			gl.glDisableClientState(GL10.GL_ALPHA_BITS);
     			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-    			gl.glScalef(1,1,1);
         
     }
     public void setSize(float size)
@@ -167,10 +164,6 @@ public class GlareObj implements Drawable {
 		indexBuffer = ByteBuffer.allocateDirect(indices.length);
 		indexBuffer.put(indices);
 		indexBuffer.position(0);
-	}
-	@Override
-	public void setScale(float scale) {
-		this.scale=scale;
 	}
 
 	@Override

@@ -19,7 +19,6 @@ import java.nio.FloatBuffer;
  */
 public class Square implements Drawable {
     private final static Square s = new Square();
-    float scale=1f;
     public Square() {
         float vertices[] = {
     			//Vertices according to faces
@@ -72,7 +71,6 @@ public class Square implements Drawable {
         gl.glFrontFace(GL11.GL_CW);
         gl.glVertexPointer(3, GL11.GL_FLOAT, 0, mFVertexBuffer);
         gl.glColorPointer(4, GL11.GL_UNSIGNED_BYTE, 0, mColorBuffer);
-        gl.glScalef(scale, scale, 1f);
         gl.glDrawElements(GL11.GL_TRIANGLES, 6, GL11.GL_UNSIGNED_BYTE, mIndexBuffer);
         gl.glFrontFace(GL11.GL_CCW);
         
@@ -91,11 +89,6 @@ public class Square implements Drawable {
 		
 	}
 
-	@Override
-	public void setScale(float scale) {
-		this.scale=scale;
-		
-	}
 
 	@Override
 	public void setSize(float size) {

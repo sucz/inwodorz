@@ -51,10 +51,6 @@ public final class Counter implements Drawable {
 		glText.load( "counter-font.ttf", 24, 2, 2 );
 	}
 	@Override
-	public void setScale(float scale) {
-
-	}
-	@Override
 	public void setSize(float size) {
 
 	}

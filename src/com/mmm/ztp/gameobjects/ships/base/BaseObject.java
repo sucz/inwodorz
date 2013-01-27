@@ -185,12 +185,6 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
 		
 	}
 	
-	public void setScale(float scale) {
-		coordinates[0]=coordinates[0]*scale;
-		coordinates[1]=coordinates[1]*scale;
-		move.setSpeed((float)(move.getSpeed()*scale));
-		objectRep.setScale(size*scale);
-	}
 	@Override
 	public float getSize(float size) {
 		return this.size;
