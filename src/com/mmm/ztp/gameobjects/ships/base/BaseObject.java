@@ -11,6 +11,9 @@ import android.util.Log;
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.drawable.Hitable;
 import com.mmm.ztp.drawable.Pointable;
+import com.mmm.ztp.event.GameEventBus;
+import com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventListener;
+import com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventObject;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
 import com.mmm.ztp.movment.Movement;
 
@@ -26,6 +29,9 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
      * Id obiektu
      */
 	protected float speed=6.4f;
+	protected int hp=100;
+	protected int maxHp = 125;
+	
     public float getSpeed() {
 		return speed;
 	}
@@ -158,7 +164,16 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
      *
      * @param object obiekt z którym nastąpiła kolizja
      */
-    public abstract void onObjectsCollision(BaseObject object);
+    public void onObjectsCollision(BaseObject object)
+    {
+    	this.decreaseHP(10);
+    	Log.d("onObjectsCollsion -> Object HP: ", ""+this.hp);
+    	if(this.hp == 0)
+    	{
+    		GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this));
+    		Log.d("onObjectsCollsion", "Object dead");
+    	}
+    }
     
     public void load(GL10 gl, Context context)
     {
@@ -196,6 +211,31 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
 	{
 		this.points=points;
 	}
+
+	public int getHp() {
+		return hp;
+	}
+
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
 	
+	public void increaseHP(int value)
+	{
+		this.hp += value;
+		if(this.hp > this.maxHp)
+		{
+			this.hp = this.maxHp;
+		}
+	}
 	
+	public void decreaseHP(int value)
+	{
+		this.hp -= value;
+		if(this.hp < 0)
+		{
+			this.hp = 0;
+			//TO DO - DEAD
+		}
+	}
 }

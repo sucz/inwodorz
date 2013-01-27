@@ -160,7 +160,10 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
         for (BaseObject playersObject : playersObjects) {
             for (BaseObject object : alienObjects) {
                 if (playersObject.hittest(object))
+                {
                     object.onObjectsCollision(playersObject);
+                    playersObject.onObjectsCollision(object);
+                }
             }
         }
         if((alienObjects.size()==0)&&(!reloadEventSent))
@@ -176,7 +179,10 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 
         for (BaseObject alienProjectile : alienProjectiles) {
             if (alienProjectile.hittest(ship))
+            {
                 ship.onObjectsCollision(alienProjectile);
+                alienProjectile.onObjectsCollision(ship);
+            }
         }
     }
 

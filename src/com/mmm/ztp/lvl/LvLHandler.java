@@ -105,6 +105,7 @@ public class LvLHandler extends DefaultHandler{
 			enemyShip.setCoordinates(coordX, coordY, 0);
 			enemyShip.setSpeed(speed);
 			enemyShip.setSize(size);
+			enemyShip.setHp(hp);
 			Movement move = moveParser.parse(moveId);
 			enemyShip.setMovement(move);
 		}

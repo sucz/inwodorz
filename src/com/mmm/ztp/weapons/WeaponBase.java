@@ -70,7 +70,4 @@ public class WeaponBase implements Weapon {
 	public int getFireRate() {
 		return interval;
 	}
-
-
-
 }

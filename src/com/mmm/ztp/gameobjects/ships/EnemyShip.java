@@ -43,7 +43,6 @@ public class EnemyShip extends BaseObject {
 
     @Override
     protected void onPostRender(GL10 gl) {
-
         if ((zonk++ % 60) == 0) {
             GameEventBus.getInstance().fireEvent(AddAlienProjectileEventListener.class,
                     new AddAlienProjectileEventObject(new BulletTest(new float[]{coordinates[0], coordinates[1], coordinates[2]}, new SimpleMove()))
@@ -55,9 +54,10 @@ public class EnemyShip extends BaseObject {
     }
 
     @Override
-    public void onObjectsCollision(BaseObject object) {
+    public void onObjectsCollision(BaseObject object) {	
+    	super.onObjectsCollision(object);
     	Counter.getInstance().add(points);
-        GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this));
+        
     }
 
 	@Override

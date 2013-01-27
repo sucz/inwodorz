@@ -4,13 +4,13 @@
 <Level name="1">
     <Stage name="1">
         <EnemyShips>
-            <EnemyShip size="102" coordX="300" coordY="300" dmg="10" hp="10" moveSpeed="0" move="5" />
+            <EnemyShip size="102" coordX="300" coordY="300" dmg="10" hp="20" moveSpeed="0" move="5" />
         </EnemyShips>
     </Stage>
     <Stage name="2">
         <EnemyShips>
-            <EnemyShip size="64" coordX="10" coordY="600" dmg="10" hp="10" moveSpeed="3.2" move="1" />
-            <EnemyShip size="102" coordX="300" coordY="400" dmg="10" hp="10" moveSpeed="3.2" move="2" />
+            <EnemyShip size="64" coordX="10" coordY="600" dmg="10" hp="20" moveSpeed="3.2" move="1" />
+            <EnemyShip size="102" coordX="300" coordY="400" dmg="10" hp="20" moveSpeed="3.2" move="2" />
         </EnemyShips>
     </Stage>
 </Level>

@@ -4,6 +4,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.util.Log;
 
+import com.mmm.ztp.counter.Counter;
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.event.GameEventBus;
 import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventListener;
@@ -79,7 +80,7 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
 
     @Override
     public void onObjectsCollision(BaseObject object) {
-        return;//ed methods use File | Settings | File Templates.
+        super.onObjectsCollision(object);
     }
 
 	@Override

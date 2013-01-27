@@ -1,6 +1,7 @@
 package com.mmm.ztp.weapons;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mmm.ztp.drawable.impl.GlareObj;
 import com.mmm.ztp.event.GameEventBus;
@@ -44,9 +45,9 @@ public class BulletTest extends BulletBase {
         move.move(coordinates);
     }
 
-	@Override
-	public void onObjectsCollision(BaseObject object) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void onObjectsCollision(BaseObject object) {
+		GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this));
+		Log.d("BulletBase -> onObjectCollision", "dead");
+    }
 }
