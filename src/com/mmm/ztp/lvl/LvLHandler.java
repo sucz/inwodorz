@@ -97,12 +97,14 @@ public class LvLHandler extends DefaultHandler{
 			Integer coordY = Integer.parseInt(attributes.getValue("coordY"));
 			Integer hp = Integer.parseInt(attributes.getValue("hp"));
 			Float speed = Float.parseFloat(attributes.getValue("moveSpeed"));
+			Float size = Float.parseFloat(attributes.getValue("size"));
 			Integer dmg = Integer.parseInt(attributes.getValue("dmg"));
 			Integer moveId = Integer.parseInt(attributes.getValue("move"));
 			
 			enemyShip = new EnemyShip(new TexturedObject(R.drawable.enemy_scout));
 			enemyShip.setCoordinates(coordX, coordY, 0);
 			enemyShip.setSpeed(speed);
+			enemyShip.setSize(size);
 			Movement move = moveParser.parse(moveId);
 			enemyShip.setMovement(move);
 		}

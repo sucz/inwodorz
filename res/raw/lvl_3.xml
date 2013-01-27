@@ -2,21 +2,21 @@
 <Level name="3">
     <Stage name="1">
         <EnemyShips>
-            <EnemyShip coordX="50" coordY="700" dmg="10" hp="10" moveSpeed="5" move="1" />
+            <EnemyShip size="102" coordX="50" coordY="700" dmg="10" hp="10" moveSpeed="5" move="1" />
         </EnemyShips>
     </Stage>
     <Stage name="2">
         <EnemyShips>
-            <EnemyShip coordX="100" coordY="650" dmg="10" hp="10" moveSpeed="5" move="1" />
-            <EnemyShip coordX="100" coordY="500" dmg="10" hp="10" moveSpeed="5" move="2" />
-            <EnemyShip coordX="100" coordY="350" dmg="10" hp="10" moveSpeed="5" move="3" />
+            <EnemyShip size="102" coordX="100" coordY="650" dmg="10" hp="10" moveSpeed="5" move="1" />
+            <EnemyShip size="102" coordX="100" coordY="500" dmg="10" hp="10" moveSpeed="5" move="2" />
+            <EnemyShip size="102" coordX="100" coordY="350" dmg="10" hp="10" moveSpeed="5" move="3" />
         </EnemyShips>
     </Stage>
     <Stage name="3">
         <EnemyShips>
-            <EnemyShip coordX="100" coordY="650" dmg="10" hp="10" moveSpeed="5" move="5" />
-            <EnemyShip coordX="100" coordY="500" dmg="10" hp="10" moveSpeed="5" move="4" />
-            <EnemyShip coordX="100" coordY="350" dmg="10" hp="10" moveSpeed="5" move="3" />
+            <EnemyShip size="102" coordX="100" coordY="650" dmg="10" hp="10" moveSpeed="5" move="5" />
+            <EnemyShip size="102" coordX="100" coordY="500" dmg="10" hp="10" moveSpeed="5" move="4" />
+            <EnemyShip size="102" coordX="100" coordY="350" dmg="10" hp="10" moveSpeed="5" move="3" />
         </EnemyShips>
     </Stage>
 </Level>

@@ -19,7 +19,6 @@ public abstract class BulletBase extends BaseObject implements Drawable,Bullet {
 
 	protected float damage;
 	Movement move;
-	protected float size;
 
 	public BulletBase(Movement m) {
 		m.setSpeed(this.speed);

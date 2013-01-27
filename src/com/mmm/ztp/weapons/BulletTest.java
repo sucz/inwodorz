@@ -18,15 +18,15 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class BulletTest extends BulletBase {
 
-    int TTL = 56;
-    protected float size=16f;
-    
+    int TTL = 56;  
     
     public BulletTest(float[] coords, Movement m) {
         super(m);
+        this.size = 16f;
         this.coordinates[0] = coords[0]-(this.size/2);
         this.coordinates[1] = coords[1];
         this.objectRep = GlareObj.getObj();
+        
     }
 
     @Override

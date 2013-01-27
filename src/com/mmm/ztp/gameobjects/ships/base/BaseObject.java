@@ -1,7 +1,11 @@
 package com.mmm.ztp.gameobjects.ships.base;
 
 
+import javax.microedition.khronos.opengles.GL10;
+
 import android.content.Context;
+import android.graphics.Point;
+import android.graphics.PointF;
 import android.util.Log;
 
 import com.mmm.ztp.drawable.Drawable;
@@ -9,8 +13,6 @@ import com.mmm.ztp.drawable.Hitable;
 import com.mmm.ztp.drawable.Pointable;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
 import com.mmm.ztp.movment.Movement;
-
-import javax.microedition.khronos.opengles.GL10;
 
 /**
  * Created with IntelliJ IDEA.
@@ -78,17 +80,25 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
     @Override
     public boolean hittest(BaseObject object) {
     	//TODO poprawić hittest
-        float objDol=object.coordinates[1];
-        float objGora=object.coordinates[1]+object.size;
-        float objLewo=object.coordinates[0];
-        float objPrawo=object.coordinates[0]+object.size;
-        float thisDol=coordinates[1];
-        float thisGora=coordinates[1]+size;
-        float thisLewo=coordinates[0];
-        float thisPrawo=coordinates[0]+size;
-        if((objGora>=thisDol)&&(objDol<=thisGora)&&(objPrawo>=thisLewo)&&(objLewo<=thisPrawo))
-        		return true;
-        return false;
+    	//object - statek alienow
+        
+//        PointF objBottomLeft = new PointF(object.coordinates[0], object.coordinates[1]);
+//        PointF objTopRight = new PointF(object.coordinates[0]+object.size, object.coordinates[1]+object.size);
+//        
+//        PointF thisBottomLeft = new PointF(this.coordinates[0], this.coordinates[1]);
+//        PointF thisTopRight = new PointF(this.coordinates[0]+this.size, this.coordinates[1]+this.size);
+        
+        PointF objBottomRight = new PointF(object.coordinates[0]+object.size, object.coordinates[1]);
+        PointF objTopLeft = new PointF(object.coordinates[0], object.coordinates[1]+object.size);
+        
+        PointF thisBottomRight = new PointF(this.coordinates[0]+this.size, this.coordinates[1]);
+        PointF thisTopLeft = new PointF(this.coordinates[0], this.coordinates[1]+this.size);
+        
+        if(thisTopLeft.x >= objBottomRight.x || thisBottomRight.x <= objTopLeft.x 
+        		|| thisTopLeft.y <= objBottomRight.y || thisBottomRight.y >= objTopLeft.y)
+        	return false;
+        else
+        	return true;
 
     }
 
@@ -175,6 +185,7 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
 	@Override
 	public void setSize(float size) {
 		this.size=size;
+		objectRep.setSize(this.size);
 		
 	}
 	public long getPoints()

@@ -25,9 +25,7 @@ import com.mmm.ztp.weapons.WeaponSpeedDecorator;
 
 public class PlayersShip extends BaseObject implements PlayerFireEventListener, PlayerMoveEventListener {
     protected int points=-3000;
-    private Weapon weapon;
-
-    
+    private Weapon weapon; 
 
     public PlayersShip(Drawable template) {
         super();

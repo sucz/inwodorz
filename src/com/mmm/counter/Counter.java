@@ -58,6 +58,11 @@ public final class Counter implements Drawable {
 	public void setSize(float size) {
 
 	}
+	@Override
+	public float getSize(float size) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 
