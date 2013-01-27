@@ -1,18 +1,17 @@
 package com.mmm.ztp.weapons;
 
+import com.mmm.ztp.event.GameEventBus;
+import com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventListener;
+import com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventObject;
 import com.mmm.ztp.gameobjects.ships.base.BaseObject;
-import com.mmm.ztp.movment.Movement;
 
 public abstract class BulletAbstractDecorator extends BulletBase {
 	
 	BulletBase dekorowany;
 
-	public BulletAbstractDecorator(Movement m) {
-		super(m);
-	}
 	public BulletAbstractDecorator(BulletBase decoredObject)
 	{
-		super(decoredObject.move);
+		super();
 		this.dekorowany=decoredObject;
 	}
 
@@ -24,6 +23,12 @@ public abstract class BulletAbstractDecorator extends BulletBase {
 	@Override
 	public void onObjectsCollision(BaseObject object) {
 		dekorowany.onObjectsCollision(object);
+	}
+	
+	@Override
+	public void onObjectCleanup() {
+		GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this.dekorowany));
+		GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this));
 	}
 
 

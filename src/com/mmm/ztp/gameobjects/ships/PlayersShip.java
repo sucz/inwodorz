@@ -2,25 +2,22 @@ package com.mmm.ztp.gameobjects.ships;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import texample.GLText;
+import android.content.Context;
 import android.util.Log;
 
-import com.mmm.ztp.counter.Counter;
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.event.GameEventBus;
-import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventListener;
-import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventObject;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventHandler;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventListener;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveEventHandler;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveEventListener;
 import com.mmm.ztp.gameobjects.ships.base.BaseObject;
-import com.mmm.ztp.movment.Movement;
-import com.mmm.ztp.movment.SimpleForwardMove;
 import com.mmm.ztp.movment.UserMove;
-import com.mmm.ztp.weapons.WeaponBase;
 import com.mmm.ztp.weapons.BulletTest;
 import com.mmm.ztp.weapons.Weapon;
+import com.mmm.ztp.weapons.WeaponBase;
 import com.mmm.ztp.weapons.WeaponSpeedDecorator;
 
 
@@ -33,13 +30,10 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
         this.speed=9.6f;
         this.objectRep = template;
         objectRep.setSize(this.size);
-        move = new Movement() {
-            @Override
-            public void move(float[] c) {
-
-            }
-        };
+        move = new UserMove();
         weapon=new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponBase()))))));
+        float zeros[]={0,0};
+        weapon.changeAmmo(new BulletTest(this.coordinates, 6));
         Log.d("PlayerShip", String.valueOf(weapon.getFireRate()));
         GameEventBus.getInstance().attachToEventBus(
                 PlayerMoveEventListener.class, new PlayerMoveEventHandler(this));
@@ -99,6 +93,30 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
 			((UserMove)this.move).Right();
 		}
 	}
+
+	@Override
+	public void onObjectCleanup() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
+	@Override
+	protected void toDraw(GL10 gl)
+	{
+		gl.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA );
+		glText.begin( Math.min((maxHp-hp)/100f, 1.0f), hp/100.0f, 0.0f, 1.0f );
+	    glText.draw( String.valueOf(getHp())+"hp", 400, 760 );
+	    glText.end();
+	}
+	
+	public void load(GL10 gl, Context context)
+    {
+		super.load(gl, context);
+    	glText = new GLText( gl, context.getAssets() );
+    	glText.load( "counter-font.ttf", 24, 2, 2 );
+    }
+
 
 
 

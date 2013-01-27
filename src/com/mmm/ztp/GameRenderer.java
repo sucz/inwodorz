@@ -1,6 +1,5 @@
 package com.mmm.ztp;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -10,13 +9,11 @@ import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 
-import com.mmm.ztp.Ticker.Ticker;
 import com.mmm.ztp.Ticker.TickerOnetimer;
 import com.mmm.ztp.counter.Counter;
 import com.mmm.ztp.drawable.Drawable;
-import com.mmm.ztp.drawable.impl.GlareObj;
 import com.mmm.ztp.drawable.impl.Square;
-import com.mmm.ztp.drawable.impl.TexturedObject;
+import com.mmm.ztp.drawable.impl.TexturedObjectFactory;
 import com.mmm.ztp.event.GameEventBus;
 import com.mmm.ztp.event.addAlienProjectioleEvent.AddAlienProjectileEventHandler;
 import com.mmm.ztp.event.addAlienProjectioleEvent.AddAlienProjectileEventListener;
@@ -32,13 +29,8 @@ import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventListener;
 import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventObject;
 import com.mmm.ztp.event.engineEvents.EngineEventListener;
 import com.mmm.ztp.event.engineEvents.EngineEventObject;
-import com.mmm.ztp.gameobjects.ships.EnemyShip;
 import com.mmm.ztp.gameobjects.ships.PlayersShip;
 import com.mmm.ztp.gameobjects.ships.base.BaseObject;
-import com.mmm.ztp.movment.FullCosinusMovement;
-import com.mmm.ztp.movment.FullSinusMovement;
-import com.mmm.ztp.movment.SimpleForwardMove;
-import com.mmm.ztp.movment.SimpleMove;
 import com.mmm.ztp.movment.UserMove;
 
 /**
@@ -51,10 +43,10 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 	
 	float tmp;
 	boolean reloadEventSent=false;
+	boolean needReload=false;
 	private final LinkedBlockingDeque<BaseObject> playersObjects = new LinkedBlockingDeque<BaseObject>();
     private final LinkedBlockingDeque<BaseObject> alienObjects = new LinkedBlockingDeque<BaseObject>();
     private final LinkedBlockingDeque<BaseObject> alienProjectiles = new LinkedBlockingDeque<BaseObject>(); //pociski obcych
-    LinkedList<Drawable> tempObj; //pociski
     private PlayersShip ship;
     Square kwa=new Square();
     
@@ -65,7 +57,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 	public GameRenderer(Context context) {
 		this.context = context;
 		
-		ship=new PlayersShip(new TexturedObject(R.drawable.ship));
+		ship=new PlayersShip(TexturedObjectFactory.get(R.drawable.ship, 128));
 		ship.setMovement(new UserMove());
 		ship.setCoordinates(0, 0, 0);
 		
@@ -74,6 +66,14 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 
 	public void onDrawFrame(GL10 gl) {
 
+		if(needReload)
+		{
+	        for (Drawable d : alienObjects) {
+	            if(!d.isLoaded())
+	            	d.load(gl, context);
+	        }
+	        needReload=false;
+		}
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();				
@@ -151,7 +151,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
 		
         Counter.getInstance().load(gl, context);
         ship.load(gl, context); //proxy
-		GlareObj.getObj().load(gl, context);
+		TexturedObjectFactory.get(R.drawable.shoot,16).load(gl, context);
 		
 	}
 
@@ -222,6 +222,7 @@ public class GameRenderer implements Renderer,AddPlayersDrawableEventListener, D
     	for (BaseObject baseObject : alienObjects) {
 			this.alienObjects.add(baseObject);
 		}
+    	this.needReload=true;
     	Log.d("alienObjects: ", ""+this.alienObjects.size());
     }
 }

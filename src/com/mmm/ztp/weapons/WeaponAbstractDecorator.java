@@ -6,5 +6,6 @@ public class WeaponAbstractDecorator extends WeaponBase {
 	{
 		this.dekorowany=decoredObject;
 	}
+	
 
 }

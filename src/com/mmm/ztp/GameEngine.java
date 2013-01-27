@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 
 import com.mmm.ztp.event.GameEventBus;
-import com.mmm.ztp.event.base.SimpleEventImpl;
 import com.mmm.ztp.event.engineEvents.EngineEventHandler;
 import com.mmm.ztp.event.engineEvents.EngineEventListener;
 import com.mmm.ztp.event.engineEvents.EngineEventObject;
@@ -30,7 +29,6 @@ import com.mmm.ztp.event.playerfireevent.PlayerFireEventListener;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveEventListener;
 import com.mmm.ztp.event.playermoveevent.PlayerMoveObject;
-import com.mmm.ztp.event.tickEvents.TickEventListener;
 import com.mmm.ztp.lvl.Level;
 import com.mmm.ztp.lvl.LvLBuilder;
 import com.mmm.ztp.lvl.Stage;
@@ -41,11 +39,12 @@ import com.mmm.ztp.util.Util;
  * @author mazdac
  * 
  */
-public class GameEngine extends GLSurfaceView implements Runnable,
+public class GameEngine extends GLSurfaceView implements
 		SensorEventListener, OnKeyListener, EngineEventListener {
 
 	private GameRenderer _renderer;
 	
+	Refresher refresh;
 	AsyncPlayer player;
 	Context context;
 	List<Integer> lvlList;
@@ -102,6 +101,8 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 			Log.d("Current Level: ", currentLvLName);
 			Log.d("Current Stage: ", currentStageName);
 		}
+		this.refresh=new Refresher(this);
+		((Thread)refresh).start();
 
 	}
 
@@ -118,25 +119,7 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 		return true;
 	}
 
-	/**
-	 * Implementacja interfejsu Runnable 
-	 * Funkcja co 16ms (60Hz) przerysowuje
-	 * grafikę, robimy tak, gdyż mamy ustawiony tryb renderowania na żądanie
-	 * (RENDERMODE_WHEN_DIRTY)
-	 */
-	@Override
-	public void run() {
-		
-		do {
-			requestRender();
-			GameEventBus.getInstance().tick(TickEventListener.class, new SimpleEventImpl());
-			try {
-				Thread.sleep(16, 0);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		} while (true);
-	}
+
 
 	/**
 	 * Implementacja interfejsu SensorEventListenera wywoływana gdy nastąpi
@@ -241,40 +224,67 @@ public class GameEngine extends GLSurfaceView implements Runnable,
 	 */
 	@Override
 	public void onEngineEvent(EngineEventObject obj) {
-		if(obj.getType()==EngineEventObject.TYPE_NEXT_LEVEL)
-		{
-			Log.d("GameEngine", "Game paused. Please load next level");
-			this.onPause();
-			//Wyświetl activity do następnego levelu
+		if (obj.getType() == EngineEventObject.TYPE_NEXT_LEVEL) {
 			
-			if(stagesIter.hasNext())
-			{
-				Stage stage = (Stage)stagesIter.next();
+			if (!stagesIter.hasNext())
+			Log.d("GameEngine", "Game paused. Loading next level");
+			Intent menu = new Intent(context, LevelMenu.class);
+			
+			if (!stagesIter.hasNext()&&lvlIter.hasNext())
+				context.startActivity(menu);
+			// Wyświetl activity do następnego levelu
+
+			if (stagesIter.hasNext()) {
+				this.renderPause();
+				Stage stage = (Stage) stagesIter.next();
 				currentStageName = stage.getName();
 				_renderer.setAlienObjectsList(stage.getShips());
+				
 				Log.d("Current Level: ", currentLvLName);
 				Log.d("Current Stage: ", currentStageName);
-			}
-			else if(lvlIter.hasNext())
+				this.renderResume();
+			} 
+			else if (lvlIter.hasNext()) 
 			{
-				Level lvl = (Level)lvlIter.next();
+				this.renderPause();
+				Level lvl = (Level) lvlIter.next();
 				currentLvLName = lvl.getName();
 				List<Stage> stages = lvl.getStages();
-			
 				stagesIter = stages.iterator();
-				if(stages != null && stagesIter.hasNext())
+				
+				if (stages != null && stagesIter.hasNext()) 
 				{
-					Stage stage = (Stage)stagesIter.next();
+					Stage stage = (Stage) stagesIter.next();
 					currentStageName = stage.getName();
 					_renderer.setAlienObjectsList(stage.getShips());
 					Log.d("Current Level: ", currentLvLName);
 					Log.d("Current Stage: ", currentStageName);
 				}
+				this.renderResume();
 			}
-			
-			this.onResume();
+			else
+			{
+				this.renderPause();
+				context.startActivity(menu);
+				this.renderResume();
+			}
+				
+
+		}
+		if(obj.getType() == EngineEventObject.TYPE_GAMEOVER)
+		{
 			
 		}
+		
+	}
+	
+	public void renderPause()
+	{
+		this.refresh.onPause();
+	}
+	public void renderResume()
+	{
+		this.refresh.onResume();
 	}
 	
 

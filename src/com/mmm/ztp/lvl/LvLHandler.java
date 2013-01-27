@@ -4,22 +4,17 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.mmm.ztp.R;
-import com.mmm.ztp.drawable.impl.TexturedObject;
-import com.mmm.ztp.gameobjects.ships.EnemyShip;
-import com.mmm.ztp.movment.FullCosinusMovement;
-import com.mmm.ztp.movment.MoveParser;
-import com.mmm.ztp.movment.Movement;
-
 import android.util.Log;
+
+import com.mmm.ztp.R;
+import com.mmm.ztp.drawable.impl.TexturedObjectFactory;
+import com.mmm.ztp.gameobjects.ships.EnemyShip;
 
 public class LvLHandler extends DefaultHandler{
 	
 	private Level lvl = null;
 	private Stage stage = null;
 	private EnemyShip enemyShip = null;
-
-	private MoveParser moveParser = new MoveParser();
 	
 //	private Boolean bInStage = false;
 //	private Boolean bInEnemyShip = false;
@@ -101,13 +96,21 @@ public class LvLHandler extends DefaultHandler{
 			Integer dmg = Integer.parseInt(attributes.getValue("dmg"));
 			Integer moveId = Integer.parseInt(attributes.getValue("move"));
 			
-			enemyShip = new EnemyShip(new TexturedObject(R.drawable.enemy_scout));
+			enemyShip = new EnemyShip(TexturedObjectFactory.get(R.drawable.enemy_scout, size.intValue()));
+			enemyShip.setMovement(moveId);
 			enemyShip.setCoordinates(coordX, coordY, 0);
 			enemyShip.setSpeed(speed);
 			enemyShip.setSize(size);
 			enemyShip.setHp(hp);
-			Movement move = moveParser.parse(moveId);
-			enemyShip.setMovement(move);
+			
+			
+			String bonusType = null;
+			if((bonusType = attributes.getValue("bonusType")) != null)
+			{
+				Integer bonusValue = Integer.parseInt(attributes.getValue("bonusValue"));
+				enemyShip.setBonusType(bonusType);
+				enemyShip.setBonusValue(bonusValue);
+			}
 		}
 	}
 }

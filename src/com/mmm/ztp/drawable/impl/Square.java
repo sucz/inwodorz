@@ -18,6 +18,7 @@ import java.nio.FloatBuffer;
  * To change this template use File | Settings | File Templates.
  */
 public class Square implements Drawable {
+	boolean loaded=false;
     private final static Square s = new Square();
     public Square() {
         float vertices[] = {
@@ -85,8 +86,7 @@ public class Square implements Drawable {
 
 	@Override
 	public void load(GL10 gl, Context context) {
-		// TODO Auto-generated method stub
-		
+		this.loaded=true;
 	}
 
 
@@ -100,5 +100,10 @@ public class Square implements Drawable {
 	public float getSize(float size) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public boolean isLoaded() {
+		return this.loaded;
 	}
 }

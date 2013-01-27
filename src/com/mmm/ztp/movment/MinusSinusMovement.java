@@ -1,13 +1,6 @@
 package com.mmm.ztp.movment;
 
-/**
- * Created with IntelliJ IDEA.
- * User: miroslaw
- * Date: 11/28/12
- * Time: 8:56 PM
- * To change this template use File | Settings | File Templates.
- */
-public class MinusSinusMovement extends Movement {
+public class MinusSinusMovement extends EnemyMovement {
     private float speed = 0.0001f;
     private float temp = 0.0f;
 
@@ -17,4 +10,12 @@ public class MinusSinusMovement extends Movement {
         c[0] = ((float) Math.sin(temp * 3f)) + 1f;
         c[1] += speed;
     }
+
+	public void onBound() {
+	}
+
+	@Override
+	public int getId() {
+		return 4;
+	}
 }

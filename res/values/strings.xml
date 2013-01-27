@@ -12,5 +12,16 @@
     <string name="top_players">Lista najlepszych</string>
     <string name="back">Wróć</string>
     <string name="reset">Rozpocznij od nowa</string>
+    <string name="upgrade_reload">-25% czasu przeładowania</string>
+    <string name="upgrade_additional_weapon_left">Dodatkowa broń na lewym skrzydle</string>
+    <string name="upgrade_additional_weapon_right">Dodatkowa broń na prawym skrzydle</string>
+    <string name="ammo_damage_upgrade">+10% do uszkodzeń</string>
+    <string name="pause">Pauza</string>
+    <string name="next_level">Rozpocznij następny poziom</string>
+    <string name="upgrades">Ulepszenia</string>
+    <string name="weapon_upgrades">Ulepszenia broni</string>
+    <string name="ammo_upgrades">Ulepszenia amunicji</string>
+    <string name="cost">Koszt</string>
+    <string name="zero">0</string>
 
 </resources>

@@ -1,6 +1,6 @@
 package com.mmm.ztp.movment;
 
-public class FullSinusMovement extends Movement {
+public class FullSinusMovement extends EnemyMovement {
     private float temp = 0.0f;
 
     @Override
@@ -10,5 +10,14 @@ public class FullSinusMovement extends Movement {
         c[0]=checkBoundaryX(c[0]);
         c[1] -= this.speed;
     }
+
+	@Override
+	public void onBound() {
+	}
+
+	@Override
+	public int getId() {
+		return 2;
+	}
 
 }

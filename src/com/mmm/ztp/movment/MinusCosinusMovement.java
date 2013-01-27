@@ -1,11 +1,6 @@
 package com.mmm.ztp.movment;
 
-/**
- * Author: miroslaw
- * Date: 12/1/12
- * Time: 9:36 PM
- */
-public class MinusCosinusMovement extends Movement {
+public class MinusCosinusMovement extends EnemyMovement {
     private float speed = 0.0002f;
     private float temp = 0.0f;
 
@@ -15,4 +10,13 @@ public class MinusCosinusMovement extends Movement {
         c[0] = ((float) Math.cos(temp * 3f)) + 1f;
         c[1] += speed;
     }
+
+	@Override
+	public void onBound() {
+	}
+
+	@Override
+	public int getId() {
+		return 3;
+	}
 }

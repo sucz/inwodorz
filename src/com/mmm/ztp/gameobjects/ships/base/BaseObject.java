@@ -3,8 +3,8 @@ package com.mmm.ztp.gameobjects.ships.base;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import texample.GLText;
 import android.content.Context;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.Log;
 
@@ -28,6 +28,8 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
     /**
      * Id obiektu
      */
+	boolean loaded=false;
+	protected GLText glText;
 	protected float speed=6.4f;
 	protected int hp=100;
 	protected int maxHp = 125;
@@ -43,7 +45,6 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
 	}
 	private static int id = Integer.MIN_VALUE;
     protected float size=128f;
-    float scale=1f;
     private static float prec = 0.3f;
     protected int points;
     
@@ -154,11 +155,13 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
         objectRep.draw(gl); //rysujemy
         
         gl.glTranslatef((-1)*coordinates[0], (-1)*coordinates[1], 0); //8 -- przesuwamy z powrotem
-
+        toDraw(gl);
+        
         onPostRender(gl);
         
     }
 
+    protected void toDraw(GL10 gl){}
     /**
      * Metda wywoływana przy kolizji z objektem w argumencie
      *
@@ -172,11 +175,16 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
     	{
     		GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this));
     		Log.d("onObjectsCollsion", "Object dead");
+    		this.onDestruct();
     	}
+    	
     }
     
     public void load(GL10 gl, Context context)
     {
+    	this.loaded=true;
+    	this.glText=new GLText(gl,context.getAssets());
+    	glText.load("counter-font.ttf", 24, 2, 2);
     	this.objectRep.load(gl,context);
     }
 
@@ -232,4 +240,10 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
 			//TO DO - DEAD
 		}
 	}
+	public boolean isLoaded()
+	{
+		return this.loaded;
+	}
+
+	public abstract void onObjectCleanup();
 }

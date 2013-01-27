@@ -1,24 +1,26 @@
 package com.mmm.ztp.drawable.impl;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.opengl.GLUtils;
-
-import com.mmm.ztp.R;
-import com.mmm.ztp.drawable.Drawable;
-
-import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+import javax.microedition.khronos.opengles.GL10;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.opengl.GLUtils;
+
+import com.mmm.ztp.drawable.Drawable;
+
+
 public class TexturedObject implements Drawable {
-    
+	
+	boolean loaded=false;
+
+
 	int res;
     /** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -48,12 +50,13 @@ public class TexturedObject implements Drawable {
         };
     private int[] textures = new int[1];
     
-    public TexturedObject(int res)
+    public TexturedObject(int res,int size)
     {
+    	this.res=res;
+    	this.setSize(size);
     	recreateBuffers();
-		this.res=res;
     }
-    public TexturedObject() {
+    private TexturedObject() {
     	recreateBuffers();
     }
 
@@ -75,6 +78,7 @@ public class TexturedObject implements Drawable {
     			gl.glDisableClientState(GL10.GL_ALPHA_BITS);
     			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+    			gl.glScalef(1,1,1);
         
     }
     public void setSize(float size)
@@ -132,34 +136,38 @@ public class TexturedObject implements Drawable {
 	@Override
 	public void load(GL10 gl, Context context) {
 		this.createTexture(gl, context);
-		
+		this.loaded=true;
 	}
 	
 	private void recreateBuffers()
 	{
-		//
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
 		vertexBuffer = byteBuf.asFloatBuffer();
 		vertexBuffer.put(vertices);
 		vertexBuffer.position(0);
 
-		//
 		byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
 		textureBuffer = byteBuf.asFloatBuffer();
 		textureBuffer.put(texture);
 		textureBuffer.position(0);
 
-		//
 		indexBuffer = ByteBuffer.allocateDirect(indices.length);
 		indexBuffer.put(indices);
 		indexBuffer.position(0);
 	}
+
 	@Override
 	public float getSize(float size) {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public boolean isLoaded() {
+		return loaded;
+	}
+	public void setLoaded(boolean loaded) {
+		this.loaded = loaded;
 	}
 }
 

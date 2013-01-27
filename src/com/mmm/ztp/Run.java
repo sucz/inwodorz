@@ -36,8 +36,7 @@ public class Run extends Activity {
 		
 		setContentView(engine);
 		
-		runner=new Thread(engine);
-		runner.start();
+
 		
 		
 	}

@@ -1,32 +1,27 @@
 package com.mmm.ztp.weapons;
 
-import android.content.Context;
+import javax.microedition.khronos.opengles.GL10;
+
 import android.util.Log;
 
-import com.mmm.ztp.drawable.impl.GlareObj;
+import com.mmm.ztp.R;
+import com.mmm.ztp.drawable.impl.TexturedObjectFactory;
 import com.mmm.ztp.event.GameEventBus;
 import com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventListener;
 import com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventObject;
-import com.mmm.ztp.gameobjects.ships.base.BaseObject;
-import com.mmm.ztp.movment.Movement;
+import com.mmm.ztp.movment.MoveFactory;
 
-import javax.microedition.khronos.opengles.GL10;
 
-/**
- * Author: miroslaw
- * Date: 11/30/12
- * Time: 8:35 PM
- */
 public class BulletTest extends BulletBase {
-
-    int TTL = 56;  
     
-    public BulletTest(float[] coords, Movement m) {
-        super(m);
+    public BulletTest(float[] coords, int moveId) {
+    	super();
+		move = MoveFactory.produce(moveId,this);
+		move.setSpeed(this.speed);
         this.size = 16f;
         this.coordinates[0] = coords[0]-(this.size/2);
         this.coordinates[1] = coords[1];
-        this.objectRep = GlareObj.getObj();
+        this.objectRep = TexturedObjectFactory.get(R.drawable.shoot, (int) size);
         
     }
 
@@ -36,18 +31,23 @@ public class BulletTest extends BulletBase {
 
     @Override
     protected void onPostRender(GL10 gl) {
-        if (TTL-- < 0)
-            GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this));
+    	
     }
 
     @Override
     protected void onPreRender(GL10 gl) {
+    	Log.d("BulletTest", "Coords:"+this.coordinates[0]+":"+this.coordinates[1]);
         move.move(coordinates);
     }
 
-    @Override
-    public void onObjectsCollision(BaseObject object) {
+	@Override
+	public void onObjectCleanup() {
 		GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this));
-		Log.d("BulletBase -> onObjectCollision", "dead");
-    }
+	}
+
+	@Override
+	public BulletBase clone() {
+		BulletTest tmp=new BulletTest(this.coordinates, this.move.getId());
+		return tmp;
+	}
 }

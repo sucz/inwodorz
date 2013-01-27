@@ -12,6 +12,7 @@ public abstract class Movement {
     protected float boundTop=800f;
     protected float boundBottom=0f;
     protected float size=128f;
+    protected int id;
 
     public abstract void move(float[] c);
 
@@ -37,13 +38,9 @@ public abstract class Movement {
     		return var;
     	
     }
-    public float checkBoundaryY(float var)
-    {
-    	if(var<this.boundBottom)
-    		return this.boundBottom;
-    	if(var+size>this.boundTop)
-    		return this.boundTop;
-    	else
-    		return var;
-    }
+    public abstract int getId();
+
+
+
+	public abstract float checkBoundaryY(float var);
 }
