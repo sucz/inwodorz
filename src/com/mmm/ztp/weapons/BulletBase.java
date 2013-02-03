@@ -1,5 +1,7 @@
 package com.mmm.ztp.weapons;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import com.mmm.ztp.Ticker.TickerOnetimer;
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.event.GameEventBus;
@@ -20,7 +22,7 @@ import com.mmm.ztp.movment.Movement;
 /**
  * Podstawowa klasa pocisku
  */
-public abstract class BulletBase extends BaseObject implements Drawable,Bullet {
+public abstract class BulletBase extends BaseObject implements Drawable,Bullet,Cloneable {
 
 	protected float damage;
 
@@ -48,7 +50,13 @@ public abstract class BulletBase extends BaseObject implements Drawable,Bullet {
 	}
 	
 	public abstract BulletBase clone();
+
+	public Movement getMove() {
+		return this.move;
+	}
 	
+    protected abstract void onPreRender(GL10 gl);
+    
 	
 	
 	

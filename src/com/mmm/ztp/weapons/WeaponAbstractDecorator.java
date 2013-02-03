@@ -6,6 +6,12 @@ public class WeaponAbstractDecorator extends WeaponBase {
 	{
 		this.dekorowany=decoredObject;
 	}
+	public Weapon clone()
+	{
+		Weapon dekorowanyClone=dekorowany.clone();
+		WeaponAbstractDecorator clone=new WeaponAbstractDecorator(dekorowanyClone);
+		return clone;
+	}
 	
 
 }

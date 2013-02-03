@@ -7,6 +7,8 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="10" />
+    <permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -20,18 +22,6 @@
             android:theme="@style/FullscreenTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.mmm.ztp.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_main"
-            android:theme="@style/FullscreenTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,6 +29,22 @@
             android:name="com.mmm.ztp.Menu"
             android:label="@string/title_activity_menu" 
             android:theme="@style/TransparentTheme">
+
+        </activity>
+        <activity
+            android:name="com.mmm.ztp.LevelMenu"
+            android:label="@string/title_activity_menu" 
+            android:theme="@style/TransparentTheme">
+        </activity>
+        <activity
+            android:name="com.mmm.ztp.GameOver"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="GameOver"
+			android:theme="@style/TransparentTheme">
+            <intent-filter>
+                			 <action android:name="android.intent.action.MAIN" />
+                            <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

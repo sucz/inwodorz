@@ -12,7 +12,7 @@ public abstract class EnemyMovement extends Movement {
 	@Override
     public float checkBoundaryY(float var)
     {
-    	if(var<(this.boundBottom-150))
+    	if(var<(this.boundBottom-50))
     		this.onBound();
 		return var;
     }

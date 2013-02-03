@@ -33,7 +33,7 @@ public class TexturedObjectFactory {
 			if((flyweight.get(res).indexOfKey(size))<0) //jesli nie ma tego rozmiaru
 					flyweight.get(res).put(size, new TexturedObject(res,size));
 		}
-		Log.d("TexturedObjectFactory","Unique elements: "+flyweight.size());
+		//Log.d("TexturedObjectFactory","Unique elements: "+flyweight.size());
 		return (flyweight.get(res)).get(size);
 		
 		

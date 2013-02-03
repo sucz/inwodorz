@@ -24,12 +24,12 @@ public class MoveFactory {
 	{
 		switch (id) {
 		case 0: return null;
-		case 1: return new FullCosinusMovement(){ public void onBound(){ ship.onObjectCleanup(); } };	
-		case 2: return new FullSinusMovement(){ public void onBound(){ ship.onObjectCleanup(); } };
-		case 3: return new MinusCosinusMovement(){ public void onBound(){ ship.onObjectCleanup(); } };
-		case 4: return new MinusSinusMovement(){ public void onBound(){ ship.onObjectCleanup(); } };
-		case 5: return new StraightMove(){ public void onBound(){ ship.onObjectCleanup(); } };
-		case 6: return new StraightProjectileMove(){ public void onBound(){ ship.onObjectCleanup(); Log.d("Move", "Usuniato pocisk"); } };
+		case 1: return new FullCosinusMovement(){ public void onBound(){ ship.onObjectsCleanup(); } };	
+		case 2: return new FullSinusMovement(){ public void onBound(){ ship.onObjectsCleanup(); } };
+		case 3: return new MinusCosinusMovement(){ public void onBound(){ ship.onObjectsCleanup(); } };
+		case 4: return new MinusSinusMovement(){ public void onBound(){ ship.onObjectsCleanup(); } };
+		case 5: return new StraightMove(){ public void onBound(){ ship.onObjectsCleanup(); } };
+		case 6: return new StraightProjectileMove(){ public void onBound(){ ship.onObjectsCleanup(); Log.d("Move", "Usuniato pocisk"); } };
 		
 
 		default:

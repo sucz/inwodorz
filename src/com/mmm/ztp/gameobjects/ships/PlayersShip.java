@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.event.GameEventBus;
+import com.mmm.ztp.event.audioEvents.AudioEventListener;
+import com.mmm.ztp.event.audioEvents.AudioEventObject;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventHandler;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventListener;
 import com.mmm.ztp.event.playerfireevent.PlayerFireEventObject;
@@ -24,6 +26,7 @@ import com.mmm.ztp.weapons.WeaponSpeedDecorator;
 public class PlayersShip extends BaseObject implements PlayerFireEventListener, PlayerMoveEventListener {
     protected int points=-3000;
     private Weapon weapon; 
+    public static PlayersShip instance;
 
     public PlayersShip(Drawable template) {
         super();
@@ -31,14 +34,30 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
         this.objectRep = template;
         objectRep.setSize(this.size);
         move = new UserMove();
-        weapon=new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponSpeedDecorator(new WeaponBase()))))));
-        float zeros[]={0,0};
+        weapon=new WeaponBase();
         weapon.changeAmmo(new BulletTest(this.coordinates, 6));
         Log.d("PlayerShip", String.valueOf(weapon.getFireRate()));
         GameEventBus.getInstance().attachToEventBus(
                 PlayerMoveEventListener.class, new PlayerMoveEventHandler(this));
         GameEventBus.getInstance().attachToEventBus(
                 PlayerFireEventListener.class, new PlayerFireEventHandler(this));
+        instance=this;
+
+    }
+    public Weapon getCurrentWeapon()
+    {
+    	return this.weapon;
+    }
+    public void setWeapon(Weapon w)
+    {
+    	this.weapon=w;
+    }
+    
+    
+    
+    public static PlayersShip getInstantce()
+    {
+    	return instance;
     }
 
     /**
@@ -75,6 +94,9 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
     @Override
     public void onObjectsCollision(BaseObject object) {
         super.onObjectsCollision(object);
+		GameEventBus.getInstance()
+		.fireEvent(AudioEventListener.class,
+				new AudioEventObject(AudioEventObject.TYPE_DMG,null));
     }
 
 	@Override
@@ -92,12 +114,6 @@ public class PlayersShip extends BaseObject implements PlayerFireEventListener, 
 		{
 			((UserMove)this.move).Right();
 		}
-	}
-
-	@Override
-	public void onObjectCleanup() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 

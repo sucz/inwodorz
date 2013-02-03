@@ -11,6 +11,8 @@ import com.mmm.ztp.drawable.Drawable;
 import com.mmm.ztp.event.GameEventBus;
 import com.mmm.ztp.event.addAlienProjectioleEvent.AddAlienProjectileEventListener;
 import com.mmm.ztp.event.addAlienProjectioleEvent.AddAlienProjectileEventObject;
+import com.mmm.ztp.event.audioEvents.AudioEventListener;
+import com.mmm.ztp.event.audioEvents.AudioEventObject;
 import com.mmm.ztp.gameobjects.ships.base.BaseObject;
 import com.mmm.ztp.movment.MoveFactory;
 import com.mmm.ztp.movment.StraightMove;
@@ -39,17 +41,20 @@ public class EnemyShip extends BaseObject {
     public void onPreRender(GL10 gl) {
     	if(this.move!=null)
         move.move(coordinates);
-    	Log.d("EnemyShip","Coords: "+this.coordinates[0]+":"+this.coordinates[1]);
+    	//Log.d("EnemyShip","Coords: "+this.coordinates[0]+":"+this.coordinates[1]);
     }
 
 
     @Override
     protected void onPostRender(GL10 gl) {
         if ((zonk++ % 60) == 0) {
-        	
-        	BulletTest tmp=new BulletTest(this.coordinates, 5);
+        	float center[]={this.coordinates[0]+(this.size/2), this.coordinates[1]};
+        	BulletTest tmp=new BulletTest( center , 5);
             GameEventBus.getInstance().fireEvent(AddAlienProjectileEventListener.class,
                     new AddAlienProjectileEventObject(tmp));
+    		GameEventBus.getInstance()
+    		.fireEvent(AudioEventListener.class,
+    				new AudioEventObject(AudioEventObject.TYPE_ENEMY_FIRE,null));
             
         }
     }
@@ -65,13 +70,6 @@ public class EnemyShip extends BaseObject {
 		if(this.getBonusType().equals("cash"))
 			Counter.getInstance().addCash(this.getBonusValue());
 	}
-
-	@Override
-	public void onObjectCleanup() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void setMovement(Integer moveId) {
 		this.move=MoveFactory.produce(moveId, this);
 		
@@ -110,5 +108,7 @@ public class EnemyShip extends BaseObject {
     	glText = new GLText( gl, context.getAssets() );
     	glText.load( "counter-font.ttf", 24, 2, 2 );
     }
+
+
 	
 }

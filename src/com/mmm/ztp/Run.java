@@ -23,21 +23,16 @@ public class Run extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		//Create an Instance with this Activity
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		//Set our own Renderer and hand the renderer this Activity Context
-		//Set the GLSurface as View to this Activity
+
 		
 		
 		engine=new GameEngine(this);
 		
 		setContentView(engine);
-		
 
-		
 		
 	}
 
@@ -59,6 +54,8 @@ public class Run extends Activity {
 		super.onPause();
 		engine.onPause();
 	}
+	
+	
 
 
 

@@ -180,6 +180,12 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
     	
     }
     
+    public void onObjectsCleanup()
+    {
+    	Log.d("BaseObject","Czyszczę obiekt na pozycji "+this.coordinates[0]+" : "+this.coordinates[1]);
+    	GameEventBus.getInstance().fireEvent(DestroyObjectEventListener.class, new DestroyObjectEventObject(this));
+    }
+    
     public void load(GL10 gl, Context context)
     {
     	this.loaded=true;
@@ -189,8 +195,6 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
     }
 
 	public void fire(PlayerFireEventObject t) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
@@ -202,7 +206,10 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
 	@Override
 	public void setSize(float size) {
 		this.size=size;
-		objectRep.setSize(this.size);
+		if(this.move!=null)
+			this.move.setSize(size);
+		if(this.objectRep!=null)
+			objectRep.setSize(size);
 		
 	}
 	public long getPoints()
@@ -244,6 +251,13 @@ public abstract class BaseObject implements Drawable, Hitable, Pointable {
 	{
 		return this.loaded;
 	}
-
-	public abstract void onObjectCleanup();
+	
+	public Drawable getObjectRep()
+	{
+		return this.objectRep;
+	}
+	public void serObjectRep(Drawable obj)
+	{
+		this.objectRep=obj;
+	}
 }

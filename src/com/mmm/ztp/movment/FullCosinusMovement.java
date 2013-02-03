@@ -8,7 +8,7 @@ public class FullCosinusMovement extends EnemyMovement {
     	temp+=0.019;
         c[0] += ((float) Math.cos(temp)*20);
         c[0]=checkBoundaryX(c[0]);
-        c[1] -= this.speed;
+        c[1] = checkBoundaryY(c[1]-this.speed);
     }
 
 	@Override

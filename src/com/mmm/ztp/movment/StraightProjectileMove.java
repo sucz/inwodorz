@@ -18,7 +18,7 @@ public class StraightProjectileMove extends Movement {
     }
 	@Override
 	public float checkBoundaryY(float var) {
-		if(var+this.size>this.boundTop)
+		if((var+this.size)>this.boundTop)
 		{
 			onBound();
 		}

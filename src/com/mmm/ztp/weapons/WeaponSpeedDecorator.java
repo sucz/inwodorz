@@ -7,9 +7,7 @@ public class WeaponSpeedDecorator extends WeaponAbstractDecorator implements Wea
 		super(decoredObject);
 	}
 	public void shoot(float[] start, float[] target, int interval) {
-		int tmpFireRate=this.dekorowany.getFireRate();
-		tmpFireRate=(int) (tmpFireRate*sfactor);
-		dekorowany.shoot(start, target, tmpFireRate);
+		dekorowany.shoot(start, target, interval);
 	}
 	public void shoot(float[] start, float[] target)
 	{

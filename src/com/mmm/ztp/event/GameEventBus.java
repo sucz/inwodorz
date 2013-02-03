@@ -38,7 +38,9 @@ public final class GameEventBus {
      * @param event      obiekt eventu
      */
     public void fireEvent(Class eventClass, SimpleEvent event) {
+    	if(listeners.get(eventClass)!=null)
     	for (BasicHandlerImpl e : listeners.get(eventClass))
+    		if(e!=null)
     			e.handle(event);
     }
     

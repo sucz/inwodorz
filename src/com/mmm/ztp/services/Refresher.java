@@ -1,5 +1,5 @@
 package com.mmm.ztp.services;
-import android.os.SystemClock;
+
 import android.util.Log;
 
 import com.mmm.ztp.GameEngine;
@@ -7,72 +7,65 @@ import com.mmm.ztp.event.GameEventBus;
 import com.mmm.ztp.event.base.SimpleEventImpl;
 import com.mmm.ztp.event.tickEvents.TickEventListener;
 
-public class Refresher extends Thread implements Service  {
+/**
+ * Klasa reprezentująća oddzielny wątek służący generacji redenerów oraz czasu (ticków).
+ * @author mazdac
+ *
+ */
+public class Refresher extends Thread implements Runnable {
 
-	GameEngine refreshedThread;
-	long milis=16;
-	long sleeptime=16;
-	boolean suspended=false;
-	
-	public Refresher(GameEngine rf)
-	{
-		this.refreshedThread=rf;
+	GameEngine refreshedItem;
+	boolean isPaused = false;
+
+	public Refresher(GameEngine item) {
+		this.refreshedItem = item;
 	}
-	
+
+	/**
+	 * Implementacja interfejsu Runnable Funkcja co 16ms (60Hz) przerysowuje
+	 * grafikę, robimy tak, gdyż mamy ustawiony tryb renderowania na żądanie
+	 * (RENDERMODE_WHEN_DIRTY)
+	 */
 	@Override
 	public void run() {
-		milis=System.currentTimeMillis();
 
 		do {
-			milis=System.currentTimeMillis()-milis;
-			if(milis>sleeptime)
-			{
-				if(sleeptime>0)
-					sleeptime=sleeptime-(milis-sleeptime);
-			}
-			else
-				sleeptime=16;
-			
+			if (isPaused) //jeśłi zmienna uśpienia ustawiona
+				try {
+					synchronized (this) {
+						this.wait();  //uśnij
+					}
+				} catch (InterruptedException e1) {
+					Log.d("Refresher", "Nie można zatrzymać rendereowania!");
+					e1.printStackTrace();
+				}
+			refreshedItem.requestRender();
 			GameEventBus.getInstance().tick(TickEventListener.class,
-					new SimpleEventImpl());
+					new SimpleEventImpl()); //generuje "tick" do nasłuchujących tickerów
 			try {
-				if(sleeptime>0)
-					Thread.sleep(sleeptime, 0);
+				Thread.sleep(16, 0);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(suspended)
-				synchronized(this)
-				{
-					try {
-						synchronized(this)
-						{
-							this.wait();
-
-						}
-					} catch (InterruptedException e) {
-						Log.d("Refresher", "Cannot stop thread");
-						e.printStackTrace();
-					}
-				}
-			refreshedThread.requestRender();
 		} while (true);
 	}
 
-	@Override
+	/**
+	 * Metoda pauzująca renderowanie
+	 */
 	public void onPause() {
-		this.suspended=true;
-		
+		this.isPaused = true;
 	}
 
-	@Override
+	/**
+	 * Metoda wznawiająca renderowanie
+	 */
 	public void onResume() {
-		synchronized(this)
-		{
-			this.suspended=false;
+		this.isPaused = false;
+		synchronized (this) {
 			this.notify();
 		}
+
 	}
-	
 
 }

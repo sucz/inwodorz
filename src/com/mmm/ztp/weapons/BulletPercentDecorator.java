@@ -1,8 +1,5 @@
 package com.mmm.ztp.weapons;
 
-import com.mmm.ztp.event.GameEventBus;
-import com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventListener;
-import com.mmm.ztp.event.destroyobjectevent.DestroyObjectEventObject;
 
 public class BulletPercentDecorator extends BulletAbstractDecorator {
 
@@ -15,9 +12,9 @@ public class BulletPercentDecorator extends BulletAbstractDecorator {
 	}
 	@Override
 	public BulletBase clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BulletPercentDecorator(this.dekorowany.clone());
 	}
+		
 	
 
 }

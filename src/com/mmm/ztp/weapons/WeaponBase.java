@@ -3,6 +3,8 @@ package com.mmm.ztp.weapons;
 import com.mmm.ztp.Ticker.Ticker;
 import com.mmm.ztp.Ticker.TickerReusable;
 import com.mmm.ztp.event.GameEventBus;
+import com.mmm.ztp.event.audioEvents.AudioEventListener;
+import com.mmm.ztp.event.audioEvents.AudioEventObject;
 import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventListener;
 import com.mmm.ztp.event.drawableevent.AddPlayersDrawableEventObject;
 import com.mmm.ztp.movment.MoveFactory;
@@ -37,6 +39,9 @@ public class WeaponBase implements Weapon {
 						AddPlayersDrawableEventListener.class,
 						new AddPlayersDrawableEventObject(klon));
 			}
+			GameEventBus.getInstance()
+			.fireEvent(AudioEventListener.class,
+					new AudioEventObject(AudioEventObject.TYPE_FIRE,null));
 			zegarek.use();
 		}
 	}
@@ -52,6 +57,9 @@ public class WeaponBase implements Weapon {
 						AddPlayersDrawableEventListener.class,
 						new AddPlayersDrawableEventObject(klon));
 			}
+			GameEventBus.getInstance()
+			.fireEvent(AudioEventListener.class,
+					new AudioEventObject(AudioEventObject.TYPE_FIRE,null));
 			zegarek.use(interval);
 		}
 	}
@@ -74,6 +82,14 @@ public class WeaponBase implements Weapon {
 	@Override
 	public int getFireRate() {
 		return interval;
+	}
+	
+	public Weapon clone()
+	{
+		WeaponBase clone=new WeaponBase();
+		clone.ammo=this.ammo.clone();
+		clone.interval=this.interval;
+		return clone;
 	}
 
 }

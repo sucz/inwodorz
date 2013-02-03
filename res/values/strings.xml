@@ -23,5 +23,6 @@
     <string name="ammo_upgrades">Ulepszenia amunicji</string>
     <string name="cost">Koszt</string>
     <string name="zero">0</string>
+    <string name="save">Zapisz</string>
 
 </resources>

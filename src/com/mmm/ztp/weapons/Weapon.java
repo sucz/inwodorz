@@ -7,4 +7,5 @@ public interface Weapon {
 	public void changeAmmo(Bullet newAmmo);
 	public float getRifles();
 	public Bullet getBulletType();
+	public Weapon clone();
 }

@@ -24,6 +24,15 @@ public abstract class Movement {
 	{
 		this.speed=speed;
 	}
+	
+	public float getSize() {
+		return size;
+	}
+
+	public void setSize(float size) {
+		this.size = size;
+	}
+
 	public float getSpeed()
 	{
 		return this.speed;

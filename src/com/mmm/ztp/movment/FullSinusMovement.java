@@ -8,7 +8,7 @@ public class FullSinusMovement extends EnemyMovement {
         temp += 0.019;
         c[0] += ((float) Math.sin(temp)*20);
         c[0]=checkBoundaryX(c[0]);
-        c[1] -= this.speed;
+        c[1] = checkBoundaryY(c[1]-this.speed);
     }
 
 	@Override
